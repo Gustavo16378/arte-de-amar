@@ -10,8 +10,8 @@
  * ponto final do de cima.
  *
  * Fontes:
- *   FIO_DESKTOP  = FIO.d de design-reference/desktop/source.html
- *   FIO_MOBILE   = FIO_M de design-reference/prancha-do-fio/source.html
+ *   FIO_DESKTOP  = FIO.d do design aprovado para o desktop
+ *   FIO_MOBILE   = FIO_M da prancha do fio
  *
  * Por que o mobile vem da prancha e não do FIO.m do desktop: o mobile é a
  * versão principal e o seu source desenha o fio a 20px da borda de 390px,

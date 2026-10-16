@@ -1,6 +1,6 @@
 /**
  * Textos institucionais, números e contatos.
- * Fonte: design-reference/desktop/source.html e design-reference/mobile/source.html.
+ * Fonte: o design aprovado, nas versões desktop e mobile.
  */
 
 import { FOTOS } from './fotos'

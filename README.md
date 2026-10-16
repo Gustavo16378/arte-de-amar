@@ -3,11 +3,6 @@
 Site one page da OSC Arte de Amar, de Palmas, Tocantins. Projeto autoral, sem
 template.
 
-A especificação está em [`PROMPT.md`](PROMPT.md); as regras do projeto, em
-[`CLAUDE.md`](CLAUDE.md). O design de referência está em
-[`design-reference/`](design-reference/) (abra `original-claude-design/*.html`
-no navegador para ver rodando).
-
 ---
 
 ## Rodar
@@ -80,8 +75,8 @@ Medido no build de produção, com o Chrome do Playwright.
 Métricas do mobile: FCP 2,0s · LCP 3,0s · TBT 120ms · CLS 0,038 · SI 2,0s.
 
 O que ainda pesa, e por quê: **LCP e FCP**. A página só pinta depois que o
-React monta, e React mais GSAP são 94 kB gzip que a stack definida no
-`CLAUDE.md` não permite trocar. O preload do hero já baixa a foto em paralelo,
+React monta, e React mais GSAP são 94 kB gzip que a stack definida para o
+projeto não permite trocar. O preload do hero já baixa a foto em paralelo,
 então o LCP está limitado pelo tempo de parse e execução do JavaScript, não
 pela imagem.
 
@@ -151,8 +146,8 @@ regra de seção que defina `display`.
 
 ### Ícones
 
-O `CLAUDE.md` proíbe biblioteca de ícones e cita o Lucide pelo nome, e o
-`PROMPT.md` pede "nunca hambúrguer de três linhas". As duas regras foram
+As regras do projeto proibiam biblioteca de ícones, citando o Lucide pelo nome,
+e a especificação pedia "nunca hambúrguer de três linhas". As duas regras foram
 revistas a pedido da ONG, com escopo fechado: **o `lucide-react` entra só
 no hambúrguer do header**, com os ícones `Menu` e `X`. Custa 1,7 kB gzip.
 
@@ -175,10 +170,10 @@ espírito do resto do site.
 - **Duas fotos chegaram com o nome trocado** e foram renomeadas:
   `equipe-mural.jpg` tinha os Big Macs e `mcdia-feliz.jpg` tinha a equipe no
   mural. Tudo passa por `src/content/fotos.ts`.
-- **Chave PIX em Switzer com algarismos tabulares**, como o `PROMPT.md` pede.
+- **Chave PIX em Switzer com algarismos tabulares**, como a especificação pede.
   É mais larga que a Sentient do source e quebrava em duas linhas no desktop,
   então o corpo e o tracking foram fechados até caber numa linha.
-- **Sem travessão em texto nenhum**, conforme a regra 5. O `— {nome}` do
+- **Sem travessão em texto nenhum**, conforme as regras do projeto. O `— {nome}` do
   depoimento virou só o nome.
 - **Barra do header a 82% de opacidade**, como nos dois `source.html`. O
   briefing fala em 92%; os sources são a fonte da verdade.
@@ -238,8 +233,8 @@ espírito do resto do site.
 - **Cada seção tem o seu degradê em coordenadas reais.** Em
   `objectBoundingBox` uma reta vertical tem caixa de largura zero e o
   navegador não desenha nada.
-- **A altura da linha do tempo vem do espaçador do pin.** Os `450vh` do
-  `PROMPT.md` dariam 3150px de rolagem para um percurso de 3352px em 1440: o
+- **A altura da linha do tempo vem do espaçador do pin.** Os `450vh` da
+  especificação dariam 3150px de rolagem para um percurso de 3352px em 1440: o
   fim do trilho ficaria inalcançável.
 - **A onda cruza o meio exatamente em cada marco**, onde está o pontinho. O
   source usava período fixo de 380px, sem relação com o espaçamento.

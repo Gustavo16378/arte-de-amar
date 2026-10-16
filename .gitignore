@@ -8,3 +8,6 @@ npm-debug.log*
 # derivados, refeitos a cada build
 public/assets/grao.png
 public/assets/fotos/gerado/
+
+# uso local com Claude Code
+CLAUDE.md

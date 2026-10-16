@@ -3,7 +3,7 @@ import { gsap, SplitText } from './gsap'
 /**
  * Peças de motion repetidas pelas seções.
  *
- * Os valores vêm das notas de Motion do design-reference/mobile/source.html,
+ * Os valores vêm das notas de motion do design aprovado para o mobile,
  * que são a especificação das animações.
  *
  * Regra geral: o estado inicial é posto pelo GSAP, nunca pelo CSS. Assim, se

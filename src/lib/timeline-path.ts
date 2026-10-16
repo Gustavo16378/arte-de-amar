@@ -5,7 +5,7 @@
  * precisa ter a largura real do trilho, que depende de quantos marcos existem
  * e do tamanho da janela. Por isso é gerado, e não copiado.
  *
- * A lógica vem do `measure()` de design-reference/desktop/source.html: entra
+ * A lógica vem do `measure()` do design aprovado para o desktop: entra
  * a 20% da largura da janela, dobra para a horizontal no meio da altura,
  * ondula alternando acima e abaixo da linha, e no fim dobra para baixo a 20%
  * da borda direita.

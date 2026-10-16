@@ -2,7 +2,7 @@
  * O coração do logo: cinco traços que o fio fecha no fim da página.
  *
  * Os paths vêm de public/assets/logo/coracao-stroke.svg, na forma compacta que
- * o design-reference usa. O viewBox é o mesmo do arquivo original.
+ * o design aprovado usa. O viewBox é o mesmo do arquivo original.
  *
  * A ordem do array é a ordem de desenho pedida na prancha:
  *   lóbulo esquerdo, lóbulo direito, base em V, figura de cima, figura de baixo.
@@ -51,7 +51,7 @@ export const CORACAO_SEGMENTOS: [number, number][] = [
 ]
 
 /**
- * HEART_MAIN, de design-reference/mobile/source.html.
+ * HEART_MAIN, do design aprovado para o mobile.
  * É o contorno do coração sem o `M` inicial: o mobile emenda esse trecho no
  * fim do path contínuo do fio, para que tudo continue sendo uma linha só.
  * Os dois círculos das figuras são gerados à parte, como arcos.
