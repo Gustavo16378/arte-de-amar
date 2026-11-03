@@ -2,8 +2,11 @@
  * Gera public/og-image.jpg, 1200x630, a partir da foto do hero com um véu
  * verde profundo, o logo em creme e a frase de abertura.
  *
- * Uso: node scripts/gerar-og.mjs
- * A Fase 6 pluga este script no build, junto com a geração dos WebP.
+ * Uso: npm run og
+ * Fora do build de propósito: o arquivo pronto fica no Git, e gerar a cada
+ * build reescrevia a imagem com bytes um pouco diferentes em cada sistema
+ * (Windows e Linux), deixando o Git acusando mudança à toa. Rode só quando a
+ * foto do hero ou a frase mudarem.
  */
 import sharp from 'sharp'
 import { fileURLToPath } from 'node:url'

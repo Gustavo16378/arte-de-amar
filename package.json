@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "node scripts/gerar-imagens.mjs && node scripts/gerar-grao.mjs && vite",
-    "build": "node scripts/gerar-imagens.mjs && node scripts/gerar-grao.mjs && node scripts/gerar-og.mjs && tsc --noEmit && tsc -p functions && vite build",
+    "build": "node scripts/gerar-imagens.mjs && node scripts/gerar-grao.mjs && tsc --noEmit && tsc -p functions && vite build",
     "preview": "vite preview",
     "imagens": "node scripts/gerar-imagens.mjs --forcar",
     "dev:api": "npm run build && wrangler pages dev dist",
@@ -18,7 +18,8 @@
     "test:api": "vitest run --project api",
     "test:e2e": "playwright test",
     "test:tudo": "npm run build && vitest run && playwright test",
-    "test:cobertura": "vitest run --project unit --coverage"
+    "test:cobertura": "vitest run --project unit --coverage",
+    "og": "node scripts/gerar-og.mjs"
   },
   "dependencies": {
     "gsap": "^3.15.0",

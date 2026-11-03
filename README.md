@@ -313,7 +313,7 @@ docs/           requisitos, arquitetura e plano de testes
 scripts/
   gerar-imagens.mjs  versões responsivas das fotos, em WebP e JPG
   gerar-grao.mjs     ladrilho da granulação
-  gerar-og.mjs       public/og-image.jpg, 1200x630
+  gerar-og.mjs       public/og-image.jpg, 1200x630 (npm run og, fora do build)
   gerar-seed.ts      migrations/0002_seed.sql a partir de src/content
   criar-admin.mjs    cria ou troca a senha de um usuário do painel
 ```
