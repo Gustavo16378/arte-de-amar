@@ -170,8 +170,9 @@ export const AJUDAR = {
     botaoCopiado: 'Copiada',
     qrLegenda: 'Cada real vira mochila, cesta e transporte. Contas abertas a cada campanha.',
     qrLegendaDesktop: 'aponte a câmera do seu banco',
-    // payload PIX estático (BR Code) do CNPJ, quando a ONG enviar: gera o QR de verdade
-    payloadPix: null,
+    // o QR e o copia e cola são gerados da chave (lib/pix.ts), sem valor fixo
+    copiaECola: 'Copiar Pix copia e cola',
+    copiaEColaCopiado: 'Código copiado, cole no app do banco',
   },
   voluntario: {
     rotulo: 'Ser voluntário',

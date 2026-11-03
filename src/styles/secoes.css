@@ -1553,25 +1553,33 @@
   padding: 10px;
 }
 
-/* marcação temporária: o QR real depende do payload PIX do CNPJ */
-.ajudar__qr-falso {
+.ajudar__qr-quadro svg {
+  display: block;
   width: 100%;
   height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: repeating-linear-gradient(0deg, #0B2E22 0 4px, transparent 4px 9px),
-    repeating-linear-gradient(90deg, #0B2E22 0 4px, transparent 4px 9px);
 }
 
-.ajudar__qr-falso span {
-  background: var(--creme);
-  padding: 4px 6px;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  line-height: 1.2;
-  color: var(--verde-profundo);
-  text-align: center;
+.ajudar__qr-texto {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+/* o "copia e cola": no celular não dá para escanear a própria tela */
+.ajudar__copia-e-cola {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.4;
+  text-align: left;
+  color: var(--menta);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
 }
 
 .ajudar__qr-legenda {

@@ -9,6 +9,8 @@ import { Fio } from '../Fio'
 import { comEnfase } from '../Titulo'
 import { AJUDAR, SITE } from '../../content/site'
 import { enviarVoluntario } from '../../lib/conteudo-remoto'
+import { pixDaOng } from '../../lib/pix'
+import { QrPix } from '../QrPix'
 
 /**
  * Como ajudar. O fio chega ao centro, curva e termina na fenda superior do
@@ -22,6 +24,9 @@ import { enviarVoluntario } from '../../lib/conteudo-remoto'
  */
 export function ComoAjudar() {
   const [copiada, setCopiada] = useState(false)
+  const [codigoCopiado, setCodigoCopiado] = useState(false)
+  // o mesmo texto vira o QR e o "copia e cola"
+  const payloadPix = pixDaOng(SITE.pix)
   const [enviado, setEnviado] = useState(false)
   const [enviando, setEnviando] = useState(false)
   const [erroEnvio, setErroEnvio] = useState<string | null>(null)
@@ -170,19 +175,33 @@ export function ComoAjudar() {
 
           <div className="ajudar__qr">
             <div className="ajudar__qr-quadro">
-              {/* QR ilustrativo até a ONG enviar o payload PIX do CNPJ (ver AJUDAR.doar.payloadPix) */}
-              <div className="ajudar__qr-falso" aria-hidden="true">
-                <span>
-                  QR Code
-                  <br />
-                  PIX
-                </span>
-              </div>
+              <QrPix payload={payloadPix} />
             </div>
-            <span className="ajudar__qr-legenda so-mobile">{AJUDAR.doar.qrLegenda}</span>
-            <span className="ajudar__qr-legenda so-desktop">
-              {AJUDAR.doar.qrLegendaDesktop}
-            </span>
+            <div className="ajudar__qr-texto">
+              <span className="ajudar__qr-legenda so-mobile">{AJUDAR.doar.qrLegenda}</span>
+              <span className="ajudar__qr-legenda so-desktop">
+                {AJUDAR.doar.qrLegendaDesktop}
+              </span>
+              {/* no celular não dá para escanear a própria tela: o copia e cola resolve */}
+              <button
+                type="button"
+                className="ajudar__copia-e-cola"
+                data-payload={payloadPix}
+                onClick={async () => {
+                  try {
+                    await navigator.clipboard.writeText(payloadPix)
+                  } catch {
+                    /* sem permissão de área de transferência */
+                  }
+                  setCodigoCopiado(true)
+                }}
+              >
+                {codigoCopiado ? AJUDAR.doar.copiaEColaCopiado : AJUDAR.doar.copiaECola}
+              </button>
+              <span className="sr-only" role="status">
+                {codigoCopiado ? 'Código Pix copia e cola copiado' : ''}
+              </span>
+            </div>
           </div>
         </div>
 
