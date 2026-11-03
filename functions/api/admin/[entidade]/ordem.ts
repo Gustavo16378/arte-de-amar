@@ -1,3 +1,4 @@
+import { registrar } from '../../../_lib/auditoria'
 import { entidade } from '../../../_lib/entidades'
 import { ErroHttp, json, lerJson, tratar } from '../../../_lib/http'
 import type { Funcao } from '../../../_lib/tipos'
@@ -6,7 +7,7 @@ import type { Funcao } from '../../../_lib/tipos'
  * PUT /api/admin/:entidade/ordem  { ids: [3, 1, 2] }
  * Grava a nova ordem de uma vez só, numa transação.
  */
-export const onRequestPut: Funcao<'entidade'> = ({ params, env, request }) =>
+export const onRequestPut: Funcao<'entidade'> = ({ params, env, request, data }) =>
   tratar(async () => {
     const e = entidade(params.entidade)
     const { ids } = await lerJson<{ ids?: unknown }>(request)
@@ -18,5 +19,6 @@ export const onRequestPut: Funcao<'entidade'> = ({ params, env, request }) =>
     await env.DB.batch(
       ids.map((id, i) => env.DB.prepare(`UPDATE ${e.tabela} SET ordem = ? WHERE id = ?`).bind(i, id)),
     )
+    await registrar(env, data.usuario, 'reordenou', e.tabela)
     return json({ ok: true })
   })

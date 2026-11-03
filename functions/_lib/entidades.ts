@@ -23,6 +23,8 @@ export type Entidade = {
   campos: Record<string, Campo>
   /** regra que envolve mais de um campo */
   validar?: (dados: Record<string, unknown>) => void
+  /** como o registro aparece na auditoria */
+  nomear: (r: Record<string, unknown>) => string
 }
 
 const visivel: Campo = { tipo: 'bool', rotulo: 'Visível no site' }
@@ -32,6 +34,7 @@ export const ENTIDADES: Record<string, Entidade> = {
   projetos: {
     tabela: 'projetos',
     nome: 'projeto',
+    nomear: (r) => String(r.nome ?? ''),
     campos: {
       nome: { tipo: 'texto', obrigatorio: true, max: 80, rotulo: 'Nome' },
       objetivo: { tipo: 'texto', obrigatorio: true, max: 400, rotulo: 'Objetivo' },
@@ -58,6 +61,7 @@ export const ENTIDADES: Record<string, Entidade> = {
   marcos: {
     tabela: 'marcos',
     nome: 'marco',
+    nomear: (r) => `${r.ano ?? ''} · ${r.titulo ?? ''}`,
     campos: {
       ano: { tipo: 'texto', obrigatorio: true, max: 10, rotulo: 'Ano' },
       titulo: { tipo: 'texto', obrigatorio: true, max: 60, rotulo: 'Título' },
@@ -72,6 +76,7 @@ export const ENTIDADES: Record<string, Entidade> = {
   membros: {
     tabela: 'membros',
     nome: 'membro',
+    nomear: (r) => `${r.nome ?? ''} (${r.cargo ?? ''})`,
     campos: {
       nome: { tipo: 'texto', obrigatorio: true, max: 60, rotulo: 'Nome' },
       cargo: { tipo: 'texto', obrigatorio: true, max: 60, rotulo: 'Cargo' },
@@ -82,6 +87,7 @@ export const ENTIDADES: Record<string, Entidade> = {
   numeros: {
     tabela: 'numeros',
     nome: 'número',
+    nomear: (r) => `${r.valor ?? ''}${r.sufixo ?? ''} ${r.label ?? ''}`.trim(),
     campos: {
       valor: { tipo: 'inteiro', obrigatorio: true, min: 0, rotulo: 'Valor' },
       sufixo: { tipo: 'texto', max: 3, rotulo: 'Sufixo' },
@@ -182,7 +188,8 @@ export function limpar(e: Entidade, bruto: Record<string, unknown>, parcial = fa
     }
   }
 
-  e.validar?.({ ...saida })
+  // regra entre campos só no registro inteiro: no PUT, a rota valida o resultado já mesclado
+  if (!parcial) e.validar?.({ ...saida })
   return saida
 }
 
@@ -193,4 +200,16 @@ export async function conferirFotos(db: D1Database, e: Entidade, dados: Record<s
     const achou = await db.prepare('SELECT 1 FROM midias WHERE id = ?').bind(dados[coluna]).first()
     if (!achou) throw new ErroHttp(`A foto escolhida em "${campo.rotulo}" não existe mais.`)
   }
+}
+
+/** rótulos, em português, dos campos que mudaram entre dois estados do registro */
+export function camposMudados(e: Entidade, antes: Record<string, unknown>, mudancas: Record<string, unknown>) {
+  const rotulos: string[] = []
+  for (const [coluna, valor] of Object.entries(mudancas)) {
+    const campo = e.campos[coluna]
+    if (!campo || (antes[coluna] ?? null) === (valor ?? null)) continue
+    if (coluna === 'visivel') rotulos.push(valor ? 'mostrou no site' : 'escondeu do site')
+    else rotulos.push(campo.rotulo)
+  }
+  return rotulos
 }

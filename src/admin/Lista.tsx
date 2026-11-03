@@ -50,7 +50,9 @@ export function PaginaLista({ cfg }: { cfg: ConfigEntidade }) {
     const visivel = item.visivel ? 0 : 1
     setItens((l) => l?.map((i) => (i.id === item.id ? { ...i, visivel } : i)) ?? null)
     try {
-      await api(`/admin/${cfg.rota}/${item.id}`, { method: 'PUT', json: { visivel } })
+      const r = await api<{ item: Registro }>(`/admin/${cfg.rota}/${item.id}`, { method: 'PUT', json: { visivel } })
+      // guarda a versão nova, senão a próxima edição acharia que alguém mexeu no meio
+      setItens((l) => l?.map((i) => (i.id === item.id ? { ...i, ...r.item } : i)) ?? null)
       avisar(visivel ? 'Agora aparece no site.' : 'Escondido do site.')
     } catch (e) {
       avisar((e as Error).message, 'erro')
@@ -196,13 +198,26 @@ function Formulario({
     setSalvando(true)
     setErro(null)
 
-    // manda só as colunas do formulário, nunca id, ordem ou foto_url
+    /*
+     * Manda só as colunas do formulário (nunca id, ordem ou foto_url). Na
+     * edição, só as que mudaram, junto com a versão que estava aberta: se
+     * outra pessoa salvou no meio, a API recusa em vez de apagar a mudança dela.
+     */
     const corpo: Rascunho = {}
-    for (const g of cfg.grupos)
-      for (const c of g.campos) {
-        corpo[c.nome] = dados[c.nome] ?? null
-        if (c.tipo === 'foto' && c.posicao) corpo[c.posicao] = dados[c.posicao] ?? '50% 50%'
+    const colunas = cfg.grupos.flatMap((g) =>
+      g.campos.flatMap((c) => (c.tipo === 'foto' && c.posicao ? [c.nome, c.posicao] : [c.nome])),
+    )
+    for (const coluna of colunas) {
+      const valor = dados[coluna] ?? (coluna.endsWith('_posicao') ? '50% 50%' : null)
+      if (novo || valor !== (inicial[coluna] ?? null)) corpo[coluna] = valor
+    }
+    if (!novo) {
+      if (Object.keys(corpo).length === 0) {
+        aoFechar()
+        return
       }
+      corpo.versao = inicial.versao ?? 0
+    }
 
     try {
       const { item } = novo

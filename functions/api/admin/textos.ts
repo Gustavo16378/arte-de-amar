@@ -1,4 +1,5 @@
 import { CAMPO_POR_CHAVE } from '../../../src/lib/textos'
+import { registro } from '../../_lib/auditoria'
 import { ErroHttp, json, lerJson, tratar } from '../../_lib/http'
 import type { Funcao } from '../../_lib/tipos'
 
@@ -28,20 +29,26 @@ export const onRequestGet: Funcao = ({ env }) =>
     return json({ valores, fotos })
   })
 
-export const onRequestPut: Funcao = ({ env, request }) =>
+export const onRequestPut: Funcao = ({ env, request, data }) =>
   tratar(async () => {
     const { valores } = await lerJson<{ valores?: Record<string, unknown> }>(request, 32 * 1024)
     if (!valores || typeof valores !== 'object') throw new ErroHttp('Nada para salvar.')
 
     const comandos: D1PreparedStatement[] = []
+    // auditoria agrupada por seção: "Abertura: Título, trocou Foto da abertura"
+    const porSecao = new Map<string, string[]>()
+    const anotar = (secao: string, texto: string) => porSecao.set(secao, [...(porSecao.get(secao) ?? []), texto])
+
     for (const [chave, bruto] of Object.entries(valores)) {
       const campo = CAMPO_POR_CHAVE.get(chave)
       if (!campo) throw new ErroHttp('Campo desconhecido.')
 
       if (bruto === null || bruto === '') {
         comandos.push(env.DB.prepare('DELETE FROM textos WHERE chave = ?').bind(chave))
+        anotar(campo.secao, `${campo.rotulo} (voltou ao original)`)
         continue
       }
+      anotar(campo.secao, campo.tipo === 'foto' ? `trocou ${campo.rotulo.toLowerCase()}` : campo.rotulo)
 
       let valor: string
       if (campo.tipo === 'foto') {
@@ -74,6 +81,9 @@ export const onRequestPut: Funcao = ({ env, request }) =>
     }
 
     if (!comandos.length) throw new ErroHttp('Nada para salvar.')
+    for (const [secao, itens] of porSecao) {
+      comandos.push(registro(env, data.usuario, 'editou', 'textos', secao, itens.join(', ')))
+    }
     await env.DB.batch(comandos)
     return json({ ok: true })
   })

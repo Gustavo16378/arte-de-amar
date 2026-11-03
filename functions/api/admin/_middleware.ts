@@ -22,6 +22,16 @@ export const onRequest: Funcao = (ctx) =>
     const carga = token ? await verificar(env, token) : null
     if (!carga) return erro('Sessão expirada. Entre de novo.', 401)
 
-    data.usuario = { id: carga.sub, nome: carga.nome, email: carga.email }
+    // a pessoa ainda existe? (quem foi removido em Usuários perde o acesso na hora)
+    const u = await env.DB.prepare('SELECT id, nome, email, trocar_senha FROM usuarios WHERE id = ?')
+      .bind(carga.sub)
+      .first<{ id: number; nome: string; email: string; trocar_senha: number }>()
+    if (!u) return erro('Sessão expirada. Entre de novo.', 401)
+
+    // senha temporária: até trocar, só a troca de senha é liberada
+    const trocandoSenha = new URL(request.url).pathname === '/api/admin/senha'
+    if (u.trocar_senha && !trocandoSenha) return erro('Crie uma senha nova antes de continuar.', 403)
+
+    data.usuario = { id: u.id, nome: u.nome, email: u.email }
     return ctx.next()
   })

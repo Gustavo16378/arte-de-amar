@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { api, type Midia } from './api'
 import { prepararFoto } from './upload'
 import { BotaoPerigoso, Carregando, useAvisar } from './ui'
+import { montarZip, nomeDeArquivo } from './zip'
 
 export function useMidias() {
   const [midias, setMidias] = useState<Midia[] | null>(null)
@@ -183,12 +184,48 @@ export function SeletorFoto({
   )
 }
 
+function extensao(tipo: string | null, url: string) {
+  if (tipo?.includes('webp')) return 'webp'
+  if (tipo?.includes('png')) return 'png'
+  return url.split('.').pop()?.split('?')[0] === 'png' ? 'png' : 'jpg'
+}
+
+/** link de download de uma foto: as enviadas saem pela API com nome legível */
+const linkDownload = (m: Midia) => (m.estatica ? m.url : `${m.url}?baixar=1`)
+
 /** a página "Fotos" do painel */
 export function PaginaFotos() {
   const { midias, setMidias, recarregar } = useMidias()
   const [aberta, setAberta] = useState<Midia | null>(null)
   const [alt, setAlt] = useState('')
+  const [zipando, setZipando] = useState<string | null>(null)
   const avisar = useAvisar()
+
+  /** junta todas as fotos num .zip, como cópia de segurança */
+  async function baixarTodas() {
+    if (!midias?.length) return
+    const arquivos: { nome: string; dados: Uint8Array }[] = []
+    try {
+      for (const [i, m] of midias.entries()) {
+        setZipando(`Juntando ${i + 1} de ${midias.length}…`)
+        const r = await fetch(m.url)
+        if (!r.ok) continue
+        const dados = new Uint8Array(await r.arrayBuffer())
+        arquivos.push({ nome: `${nomeDeArquivo(m.alt) || 'foto'}-${m.id}.${extensao(r.headers.get('Content-Type'), m.url)}`, dados })
+      }
+      const url = URL.createObjectURL(montarZip(arquivos))
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `fotos-arte-de-amar-${new Date().toISOString().slice(0, 10)}.zip`
+      a.click()
+      setTimeout(() => URL.revokeObjectURL(url), 10_000)
+      avisar(`${arquivos.length} fotos baixadas.`)
+    } catch {
+      avisar('Não consegui juntar as fotos. Tente de novo.', 'erro')
+    } finally {
+      setZipando(null)
+    }
+  }
 
   async function salvarAlt() {
     if (!aberta) return
@@ -219,8 +256,14 @@ export function PaginaFotos() {
         <div>
           <h2 className="pagina__titulo">Fotos</h2>
           <p className="pagina__descricao">
-            Todas as fotos que o site pode usar. Envie aqui ou direto do formulário de um projeto.
+            Todas as fotos que o site pode usar. Toda foto enviada é reduzida e convertida para WebP, o formato mais leve
+            para a web. Use “Baixar todas” de vez em quando, como cópia de segurança.
           </p>
+        </div>
+        <div className="pagina__acoes">
+          <button type="button" className="btn btn--secundario" onClick={baixarTodas} disabled={!!zipando || !midias?.length}>
+            {zipando ?? 'Baixar todas (.zip)'}
+          </button>
         </div>
       </header>
 
@@ -256,6 +299,13 @@ export function PaginaFotos() {
               <button type="button" className="btn btn--fantasma" onClick={() => setAberta(null)}>
                 Fechar
               </button>
+              <a
+                className="btn btn--secundario"
+                href={linkDownload(aberta)}
+                download={`${nomeDeArquivo(aberta.alt) || 'foto'}-${aberta.id}`}
+              >
+                Baixar
+              </a>
               {!aberta.estatica && (
                 <BotaoPerigoso confirmar="Apagar mesmo?" aoConfirmar={() => apagar(aberta)}>
                   Apagar

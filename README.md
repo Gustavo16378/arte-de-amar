@@ -122,13 +122,35 @@ avisa no topo a partir de 70%. Os registros de tentativa de login e de
 cadastro são apagados sozinhos depois de um dia; contatos de voluntário só
 saem quando a diretoria apaga (um a um ou todos os arquivados de uma vez).
 
+**Senha perdida.** Na aba Usuários, qualquer pessoa da diretoria dá acesso
+a outra e gera uma senha temporária para quem esqueceu (fácil de mandar no
+WhatsApp). Quem entra com ela é obrigado a criar uma senha própria antes de
+usar o painel. Se ninguém conseguir entrar, `npm run admin -- --remote`
+continua funcionando como chave mestra.
+
+**Auditoria.** Toda alteração feita no painel, e cada login, vira uma linha
+na tabela `auditoria`, já em português ("Aline editou os textos de Abertura:
+trocou foto da abertura"). A aba Auditoria mostra por dia e por pessoa. Os
+registros com mais de um ano são apagados sozinhos.
+
+**Duas pessoas ao mesmo tempo.** Cada pedido é independente: mexer em coisas
+diferentes salva as duas. Para o mesmo item, projetos, marcos, diretoria e
+números têm uma coluna `versao`. O painel manda só os campos alterados junto
+com a versão que estava aberta; se outra pessoa salvou no meio, a API
+responde 409 dizendo quem foi, em vez de apagar a mudança dela. Nos textos
+do site cada campo é gravado separado, e vale o último a salvar aquele campo.
+
+**Fotos.** Entram reduzidas a 1600px e em WebP (ou JPEG em navegador que não
+gera WebP). Cada foto tem "Baixar", e "Baixar todas (.zip)" monta um zip no
+próprio navegador como cópia de segurança.
+
 ### Rotas
 
 | método | rota | o que faz |
 |---|---|---|
 | GET | `/api/conteudo` | tudo que o site mostra, numa ida ao banco |
 | POST | `/api/voluntarios` | formulário "Ser voluntário" |
-| GET | `/api/midias/:id` | foto enviada pelo painel |
+| GET | `/api/midias/:id[?baixar=1]` | foto enviada pelo painel (ou como download) |
 | POST | `/api/auth/login` · `/logout` | entra e sai |
 | GET | `/api/auth/eu` | quem está logado |
 | GET, POST | `/api/admin/:entidade` | lista e cria (`projetos`, `marcos`, `membros`, `numeros`) |
@@ -141,6 +163,9 @@ saem quando a diretoria apaga (um a um ou todos os arquivados de uma vez).
 | GET, PUT | `/api/admin/textos` | textos e fotos fixos das seções |
 | GET | `/api/admin/espaco` | quanto do banco já foi usado |
 | PUT | `/api/admin/senha` | troca a própria senha |
+| GET, POST | `/api/admin/usuarios` | quem tem acesso; cria com senha temporária |
+| PUT, DELETE | `/api/admin/usuarios/:id` | nova senha temporária; tira o acesso |
+| GET | `/api/admin/auditoria?de=&ate=` | o que foi feito no período |
 
 ### Segurança
 

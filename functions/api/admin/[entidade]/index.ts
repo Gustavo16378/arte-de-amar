@@ -1,4 +1,5 @@
 import { conferirFotos, entidade, limpar } from '../../../_lib/entidades'
+import { registrar } from '../../../_lib/auditoria'
 import { json, lerJson, tratar } from '../../../_lib/http'
 import type { Funcao } from '../../../_lib/tipos'
 
@@ -21,7 +22,7 @@ export const onRequestGet: Funcao<'entidade'> = ({ params, env }) =>
     return json({ itens: results })
   })
 
-export const onRequestPost: Funcao<'entidade'> = ({ params, env, request }) =>
+export const onRequestPost: Funcao<'entidade'> = ({ params, env, request, data }) =>
   tratar(async () => {
     const e = entidade(params.entidade)
     const dados = limpar(e, await lerJson(request))
@@ -32,6 +33,7 @@ export const onRequestPost: Funcao<'entidade'> = ({ params, env, request }) =>
                  VALUES (${colunas.map(() => '?').join(', ')},
                          (SELECT COALESCE(MAX(ordem), -1) + 1 FROM ${e.tabela}))
                  RETURNING *`
-    const criado = await env.DB.prepare(sql).bind(...Object.values(dados)).first()
+    const criado = await env.DB.prepare(sql).bind(...Object.values(dados)).first<Record<string, unknown>>()
+    await registrar(env, data.usuario, 'criou', e.tabela, e.nomear(criado ?? dados))
     return json({ item: criado }, 201)
   })

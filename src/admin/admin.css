@@ -640,3 +640,50 @@ a { color: inherit; }
 .medidor span { display: block; height: 100%; border-radius: 10px; background: var(--esmeralda); transition: width .4s; }
 .medidor--atencao span { background: #E08A5B; }
 .medidor--critico span { background: #b5481c; }
+
+/* ------------------------------------------------------------ usuários e auditoria */
+.cartao--destaque { border: 1.5px solid var(--esmeralda); }
+.senha-temporaria {
+  margin: 0;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 26px;
+  letter-spacing: .06em;
+  color: var(--verde-profundo);
+  user-select: all;
+}
+.voce { font-family: var(--font-body); font-size: 13px; color: var(--tinta-suave); }
+.btn--suave { color: var(--verde-profundo); }
+.btn--suave:hover { background: rgba(11, 46, 34, .06); }
+.btn--suave.btn--armado { background: var(--verde-profundo); color: var(--creme); }
+.campo--compacto input { min-width: 170px; }
+
+.auditoria { list-style: none; margin: 0; padding: 0; position: relative; }
+.auditoria::before {
+  content: '';
+  position: absolute;
+  left: 58px;
+  top: 8px;
+  bottom: 8px;
+  width: 1.5px;
+  background: linear-gradient(var(--esmeralda), var(--menta));
+  opacity: .5;
+}
+.registro { position: relative; display: grid; grid-template-columns: 48px 1fr; gap: 22px; padding: 10px 0; }
+.registro::after {
+  content: '';
+  position: absolute;
+  left: 54px;
+  top: 17px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--creme);
+  border: 2px solid var(--esmeralda);
+}
+.registro--apagou::after { border-color: var(--terracota); }
+.registro--entrou::after { border-color: var(--neutro-fechado); }
+.registro__hora { padding-top: 2px; font-size: 13px; font-variant-numeric: tabular-nums; color: var(--neutro-fechado); }
+.registro__texto { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.registro__texto p { margin: 0; font-size: 15px; }
+.registro__texto span { font-size: 13px; color: var(--tinta-suave); }
+.registro--entrou .registro__texto p { color: var(--tinta-suave); }

@@ -1,4 +1,5 @@
 import { assinar, conferirSenha, cookieDeSessao } from '../../_lib/auth'
+import { registro } from '../../_lib/auditoria'
 import { ErroHttp, json, lerJson, tratar } from '../../_lib/http'
 import type { Funcao } from '../../_lib/tipos'
 
@@ -30,10 +31,18 @@ export const onRequestPost: Funcao = ({ request, env }) =>
     }
 
     const u = await env.DB.prepare(
-      'SELECT id, nome, email, senha_hash, salt, iteracoes FROM usuarios WHERE email = ?',
+      'SELECT id, nome, email, senha_hash, salt, iteracoes, trocar_senha FROM usuarios WHERE email = ?',
     )
       .bind(email)
-      .first<{ id: number; nome: string; email: string; senha_hash: string; salt: string; iteracoes: number }>()
+      .first<{
+        id: number
+        nome: string
+        email: string
+        senha_hash: string
+        salt: string
+        iteracoes: number
+        trocar_senha: number
+      }>()
 
     const ok = u ? await conferirSenha(senha, u.senha_hash, u.salt, u.iteracoes) : false
     if (!u || !ok) {
@@ -43,10 +52,15 @@ export const onRequestPost: Funcao = ({ request, env }) =>
       throw new ErroHttp('E-mail ou senha incorretos.', 401)
     }
 
-    await env.DB.prepare('DELETE FROM tentativas WHERE chave = ?').bind(chave).run()
+    await env.DB.batch([
+      env.DB.prepare('DELETE FROM tentativas WHERE chave = ?').bind(chave),
+      registro(env, u, 'entrou', 'painel'),
+      // auditoria guarda um ano; depois disso some sozinha
+      env.DB.prepare(`DELETE FROM auditoria WHERE criado_em < datetime('now', '-1 year')`),
+    ])
     const token = await assinar(env, u)
     return json(
-      { usuario: { id: u.id, nome: u.nome, email: u.email } },
+      { usuario: { id: u.id, nome: u.nome, email: u.email, trocarSenha: u.trocar_senha === 1 } },
       200,
       { 'Set-Cookie': cookieDeSessao(request, token) },
     )

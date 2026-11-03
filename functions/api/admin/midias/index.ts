@@ -1,3 +1,4 @@
+import { registrar } from '../../../_lib/auditoria'
 import { urlDaFoto } from '../../../_lib/conteudo'
 import { ErroHttp, json, tratar } from '../../../_lib/http'
 import type { Funcao } from '../../../_lib/tipos'
@@ -38,7 +39,7 @@ export const onRequestGet: Funcao = ({ env }) =>
     })
   })
 
-export const onRequestPost: Funcao = ({ env, request }) =>
+export const onRequestPost: Funcao = ({ env, request, data }) =>
   tratar(async () => {
     const form = await request.formData().catch(() => {
       throw new ErroHttp('Envie a foto como formulário.')
@@ -66,5 +67,6 @@ export const onRequestPost: Funcao = ({ env, request }) =>
       .bind(bytes, tipo, alt, largura, altura, bytes.byteLength)
       .first<{ id: number }>()
 
+    await registrar(env, data.usuario, 'enviou', 'fotos', alt)
     return json({ item: { ...item, url: urlDaFoto(item!.id, null), estatica: false, usos: 0 } }, 201)
   })

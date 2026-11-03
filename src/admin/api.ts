@@ -39,7 +39,7 @@ export async function api<T = unknown>(caminho: string, opcoes: RequestInit & { 
   return corpo
 }
 
-export type Usuario = { id: number; nome: string; email: string }
+export type Usuario = { id: number; nome: string; email: string; trocarSenha?: boolean }
 
 export type Midia = {
   id: number

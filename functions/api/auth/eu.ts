@@ -8,5 +8,9 @@ export const onRequestGet: Funcao = ({ request, env }) =>
     const token = lerCookie(request)
     const carga = token ? await verificar(env, token) : null
     if (!carga) return erro('Sessão expirada. Entre de novo.', 401)
-    return json({ usuario: { id: carga.sub, nome: carga.nome, email: carga.email } })
+    const u = await env.DB.prepare('SELECT id, nome, email, trocar_senha FROM usuarios WHERE id = ?')
+      .bind(carga.sub)
+      .first<{ id: number; nome: string; email: string; trocar_senha: number }>()
+    if (!u) return erro('Sessão expirada. Entre de novo.', 401)
+    return json({ usuario: { id: u.id, nome: u.nome, email: u.email, trocarSenha: u.trocar_senha === 1 } })
   })

@@ -1,3 +1,4 @@
+import { registrar } from '../../../_lib/auditoria'
 import { json, tratar } from '../../../_lib/http'
 import type { Funcao } from '../../../_lib/tipos'
 
@@ -11,8 +12,10 @@ export const onRequestGet: Funcao = ({ env }) =>
   })
 
 /** DELETE /api/admin/voluntarios  apaga de uma vez todos os contatos arquivados */
-export const onRequestDelete: Funcao = ({ env }) =>
+export const onRequestDelete: Funcao = ({ env, data }) =>
   tratar(async () => {
     const r = await env.DB.prepare(`DELETE FROM voluntarios WHERE status = 'arquivado'`).run()
-    return json({ apagados: r.meta.changes ?? 0 })
+    const n = r.meta.changes ?? 0
+    if (n) await registrar(env, data.usuario, 'apagou', 'voluntarios', `${n} contato${n > 1 ? 's' : ''} arquivado${n > 1 ? 's' : ''}`)
+    return json({ apagados: n })
   })

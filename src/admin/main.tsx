@@ -10,17 +10,27 @@ import { PaginaFotos } from './Fotos'
 import { PaginaLista } from './Lista'
 import { AvisoEspaco, PaginaConfiguracoes, PaginaVoluntarios } from './Paginas'
 import { PaginaTextos } from './Textos'
+import { PaginaAuditoria, PaginaUsuarios, TrocaObrigatoria } from './Equipe'
 import { Carregando, Coracao, ProvedorAvisos, useAvisar } from './ui'
 import '../styles/fonts.css'
 import './admin.css'
 
-type Aba = 'textos' | (typeof ENTIDADES)[number]['rota'] | 'fotos' | 'voluntarios' | 'configuracoes'
+type Aba =
+  | 'textos'
+  | (typeof ENTIDADES)[number]['rota']
+  | 'fotos'
+  | 'voluntarios'
+  | 'usuarios'
+  | 'auditoria'
+  | 'configuracoes'
 
 const ABAS: { id: Aba; rotulo: string }[] = [
   { id: 'textos', rotulo: 'Textos do site' },
   ...ENTIDADES.map((e) => ({ id: e.rota, rotulo: e.titulo })),
   { id: 'fotos', rotulo: 'Fotos' },
   { id: 'voluntarios', rotulo: 'Voluntários' },
+  { id: 'usuarios', rotulo: 'Usuários' },
+  { id: 'auditoria', rotulo: 'Auditoria' },
   { id: 'configuracoes', rotulo: 'Configurações' },
 ]
 
@@ -147,6 +157,10 @@ function Casca({ usuario, aoSair }: { usuario: Usuario; aoSair: () => void }) {
           <PaginaFotos />
         ) : aba === 'voluntarios' ? (
           <PaginaVoluntarios />
+        ) : aba === 'usuarios' ? (
+          <PaginaUsuarios eu={usuario} />
+        ) : aba === 'auditoria' ? (
+          <PaginaAuditoria />
         ) : (
           <PaginaConfiguracoes />
         )}
@@ -167,6 +181,9 @@ function Painel() {
 
   if (usuario === undefined) return <Carregando texto="Abrindo o painel…" />
   if (!usuario) return <Login aoEntrar={setUsuario} />
+  if (usuario.trocarSenha) {
+    return <TrocaObrigatoria usuario={usuario} aoTrocar={() => setUsuario({ ...usuario, trocarSenha: false })} />
+  }
   return <Casca usuario={usuario} aoSair={() => setUsuario(null)} />
 }
 

@@ -1,3 +1,4 @@
+import { registrar } from '../../_lib/auditoria'
 import { ErroHttp, json, lerJson, tratar } from '../../_lib/http'
 import type { Funcao } from '../../_lib/tipos'
 
@@ -11,7 +12,7 @@ export const onRequestGet: Funcao = ({ env }) =>
     return json({ config: Object.fromEntries(results.map((c) => [c.chave, c.valor])) })
   })
 
-export const onRequestPut: Funcao = ({ env, request }) =>
+export const onRequestPut: Funcao = ({ env, request, data }) =>
   tratar(async () => {
     const d = await lerJson<Record<string, unknown>>(request, 2048)
     const comandos: D1PreparedStatement[] = []
@@ -34,5 +35,7 @@ export const onRequestPut: Funcao = ({ env, request }) =>
     if (!comandos.length) throw new ErroHttp('Nada para salvar.')
 
     await env.DB.batch(comandos)
+    const mudou = [('whatsapp' in d) && 'WhatsApp', ('pix' in d) && 'Chave PIX'].filter(Boolean).join(', ')
+    await registrar(env, data.usuario, 'editou', 'configuracoes', 'Contatos do site', mudou)
     return json({ ok: true })
   })
