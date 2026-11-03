@@ -688,3 +688,8 @@ a { color: inherit; }
 .registro__texto p { margin: 0; font-size: 15px; }
 .registro__texto span { font-size: 13px; color: var(--tinta-suave); }
 .registro--entrou .registro__texto p { color: var(--tinta-suave); }
+
+/* quem pede menos movimento não vê transição nenhuma (e o axe não mede cor no meio da troca) */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
