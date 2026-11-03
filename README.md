@@ -14,7 +14,7 @@ axe-core nos testes. Custo de operação zero.
 |---|---|
 | [docs/requisitos.md](docs/requisitos.md) | atores, restrições, requisitos funcionais e não funcionais |
 | [docs/arquitetura.md](docs/arquitetura.md) | camadas, fluxos, edição simultânea e decisões |
-| [docs/testes.md](docs/testes.md) | 341 testes em caixa branca, cinza e preta, rastreabilidade e o que eles encontraram |
+| [docs/testes.md](docs/testes.md) | 358 testes em caixa branca, cinza e preta, rastreabilidade e o que eles encontraram |
 | [docs/api.md](docs/api.md) | referência das rotas, com exemplos de pedido e resposta |
 | [docs/banco.md](docs/banco.md) | modelo do banco, diagrama ER e migrations |
 | [docs/manual-do-painel.md](docs/manual-do-painel.md) | como a diretoria usa o painel, em linguagem simples |
@@ -53,8 +53,8 @@ Se isso passar a importar, dá para rolar até a âncora quando a cortina sobe.
 
 ```bash
 npm run build      # a API e os E2E servem o dist/
-npm test           # unitários + banco + API (297)
-npm run test:e2e   # E2E e acessibilidade no computador e no celular (44)
+npm test           # unitários + banco + API (310)
+npm run test:e2e   # E2E e acessibilidade no computador e no celular (48)
 ```
 
 Os testes de API e E2E sobem a API de verdade (`wrangler pages dev`) com um
@@ -471,7 +471,7 @@ Fica de fora do painel:
 
 | o que falta | onde entra |
 |---|---|
-| payload PIX estático (BR Code) do CNPJ, para gerar o QR de verdade | `AJUDAR.doar.payloadPix` em `src/content/site.ts` |
+| confirmar que a chave PIX (CNPJ) está cadastrada na conta da ONG: o QR e o copia e cola são gerados dela | escanear o QR do site no app do banco |
 | crédito do rodapé, hoje "nome do estúdio" | `src/components/sections/Footer.tsx` |
 | originais de `triagem-roupas.jpg` e `criancas-comunidade.jpg`, que chegaram em 240x320 | `public/assets/fotos/` |
 | domínio próprio | Cloudflare Pages → Custom domains, e o endereço nos quatro arquivos citados em Deploy |
@@ -495,5 +495,5 @@ Fica de fora do painel:
 7. **Backend e painel**: API em Pages Functions, banco D1 com migrations,
    painel da diretoria com textos, cadastros, fotos, voluntários, usuários,
    auditoria e trava de edição simultânea.
-8. **Qualidade**: requisitos, 341 testes em caixa branca, cinza e preta, CI
+8. **Qualidade**: requisitos, 358 testes em caixa branca, cinza e preta, CI
    no GitHub Actions e documentação em `docs/`.

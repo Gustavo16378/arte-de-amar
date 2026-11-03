@@ -37,6 +37,7 @@ liga um ao outro.
 | RF05 | Se a API estiver fora do ar, a inscrição abre o WhatsApp da ONG com a mensagem pronta. |
 | RF06 | Textos e fotos fixos de cada seção (abertura, quem somos, história, atuação, como ajudar, rodapé) vêm do banco quando a diretoria os trocou. |
 | RF07 | WhatsApp e chave PIX exibidos no site são os configurados no painel. |
+| RF21 | O site mostra o QR Code do PIX e o "Pix copia e cola", gerados da chave configurada (BR Code estático, sem valor fixo). |
 
 ### Painel
 

@@ -7,12 +7,12 @@ Como o sistema é verificado, o que cada suíte cobre e como cada requisito de
 
 | suíte | técnica | o que roda | testes |
 |---|---|---|---|
-| Unitários | caixa branca | bibliotecas da API e do site, isoladas | 108 |
+| Unitários | caixa branca | bibliotecas da API e do site, isoladas | 121 |
 | Banco | caixa branca | migrations aplicadas do zero num SQLite em memória | 34 |
 | API | caixa preta e caixa cinza | a API real (wrangler, runtime da Cloudflare) com um D1 isolado | 155 |
-| E2E | caixa preta | site e painel num navegador, no computador (1440px) e no celular (390px) | 44 |
+| E2E | caixa preta | site e painel num navegador, no computador (1440px) e no celular (390px) | 48 |
 | Acessibilidade | caixa preta | axe-core, regras WCAG 2 A e AA, dentro do E2E | incluída no E2E |
-| **Total** | | | **341** |
+| **Total** | | | **358** |
 
 Cobertura de linhas dos unitários: 89% nas bibliotecas (`functions/_lib`,
 `src/lib`, zip do painel). O que fica de fora do unitário (`auditoria.ts` e
@@ -73,6 +73,7 @@ o relatório do Playwright, com trace e screenshot do erro, fica salvo como arte
 | `http.test.ts` | leitura de JSON (tipo, tamanho, formato), formato único de erro, erro interno sem vazar detalhe, ids de rota |
 | `textos.test.ts` | chaves únicas, texto original dentro do limite, aplicação no site sem mexer no catálogo de fotos |
 | `conteudo-remoto.test.ts` | troca do conteúdo no lugar, layout derivado da ordem, reserva com API em erro, fora do ar, lenta (2,5 s) ou fora do contrato |
+| `pix.test.ts` | CRC16 com o valor de verificação padrão, o payload do manual do Pix do Banco Central reproduzido caractere por caractere, normalização das chaves (CNPJ, CPF, telefone, e-mail, aleatória), limites de nome e cidade |
 | `utilitarios.test.ts` | zip relido byte a byte e conferido com o CRC-32 do zlib (e pelo Python, quando instalado), nomes de arquivo, senha temporária (formato, sem caracteres ambíguos, sem repetição) |
 
 ### Banco (`tests/db/schema.test.ts`)
@@ -102,7 +103,7 @@ auditoria.
 
 | arquivo | foco |
 |---|---|
-| `site.spec.ts` | site sem erro de console nem rolagem lateral; reserva com API fora e lenta; inscrição chegando ao painel; erro no formulário; WhatsApp quando a API cai; HTML de texto editado não executa; seção vazia some |
+| `site.spec.ts` | site sem erro de console nem rolagem lateral; reserva com API fora e lenta; inscrição chegando ao painel; erro no formulário; WhatsApp quando a API cai; HTML de texto editado não executa; seção vazia some; QR do PIX lido do print da tela (jsQR) igual ao copia e cola; chave trocada no painel troca o QR |
 | `painel.spec.ts` | login, editar meta e ver no site, editar e voltar texto ao original, upload real (foto de 3000px chega com 1600px), duas pessoas no mesmo projeto, dar acesso e trocar senha obrigatória, auditoria, WhatsApp marcando como chamado, todas as abas no celular |
 | `acessibilidade.spec.ts` | axe-core no site, no login e em sete abas do painel |
 
@@ -120,6 +121,7 @@ grupos parametrizados) por requisito:
 | RF05 WhatsApp quando a API cai | ✓ | | | ✓ |
 | RF06 textos editados no site | ✓ | | ✓ | ✓ |
 | RF07 WhatsApp e PIX configuráveis | ✓ | | ✓ | |
+| RF21 QR Code e Pix copia e cola | ✓ | | | ✓ |
 | RF10 login e sessão | | | ✓ | ✓ |
 | RF11 cadastros | ✓ | | ✓ | ✓ |
 | RF12 fotos | ✓ | | ✓ | ✓ |

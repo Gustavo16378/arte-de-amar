@@ -4,6 +4,27 @@ O que mudou em cada versão do site e do painel da Arte de Amar.
 Formato inspirado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/);
 versões em [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.1.0] · 2026-11-03
+
+### Adicionado
+
+- QR Code do PIX de verdade, gerado da chave configurada no painel (BR Code
+  estático do Banco Central, sem valor fixo).
+- Botão "Copiar Pix copia e cola", para quem está no celular.
+- Prévia do QR nas configurações do painel.
+- Testes do PIX: exemplo oficial do Banco Central e leitura do QR direto da
+  tela. Total de 358 testes.
+
+### Mudado
+
+- A imagem de compartilhamento (og-image) saiu do build: `npm run og`.
+
+### Corrigido
+
+- Teste do zip não depende mais do Python (falhava no Windows).
+- Retratos da Aline e da Julia centralizados no mural; mural da diretoria
+  sem contorno ao clicar e sem seleção ao arrastar.
+
 ## [1.0.0] · 2026-11-03
 
 Primeira versão com backend: a diretoria passa a cuidar do site sozinha.
