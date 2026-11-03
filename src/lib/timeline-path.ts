@@ -10,7 +10,7 @@
  * ondula alternando acima e abaixo da linha, e no fim dobra para baixo a 20%
  * da borda direita.
  *
- * Com uma diferença: no source a onda tinha período fixo de 380px, que não
+ * Com uma diferença: no protótipo a onda tinha período fixo de 380px, que não
  * tem relação nenhuma com o espaçamento dos marcos. O fio cruzava o meio em
  * pontos arbitrários e os pontinhos de cada marco ficavam soltos, fora da
  * linha. Aqui a onda cruza o meio exatamente em cada marco, que é onde o
@@ -62,7 +62,7 @@ export function caminhoDaLinhaDoTempo(
 
 /**
  * Quanto o trilho anda na horizontal, e quanto de rolagem isso custa.
- * O fator 1.15 é o do source: dá um respiro a mais no fim do trajeto.
+ * O fator 1.15 é o do protótipo: dá um respiro a mais no fim do trajeto.
  */
 export function medidasDaLinhaDoTempo(larguraTrilho: number, larguraJanela: number) {
   const percurso = Math.max(0, larguraTrilho - larguraJanela)

@@ -1,6 +1,6 @@
 /*
  * Layout de cada seção. Mobile primeiro (390px é a versão principal), depois
- * o desktop a partir de 1024px. Os valores vêm dos source.html de referência.
+ * o desktop a partir de 1024px. Os valores vêm dos protótipos aprovados.
  */
 
 /* margem padrão do conteúdo: o fio corre a 20px, o texto começa a 44px */
@@ -24,7 +24,7 @@
   color: var(--creme);
 }
 
-/* no mobile a foto sangra inteira, como manda o source: full-bleed, sem recorte */
+/* no mobile a foto sangra inteira, como manda o protótipo: full-bleed, sem recorte */
 .hero__foto {
   position: absolute;
   inset: 0;
@@ -64,8 +64,8 @@
 
 /*
  * No mobile o título flui numa caixa de 88%, então as linhas ficam inline.
- * No desktop cada linha vira um bloco com máscara, para a Fase 5 fazer a
- * linha subir de trás dela.
+ * No desktop cada linha vira um bloco com máscara, e o GSAP faz a linha
+ * subir de trás dela.
  */
 .hero__linha {
   display: inline;
@@ -506,7 +506,7 @@
     max-width: 560px;
   }
 
-  /* três colunas separadas por linha fina, como no desktop source */
+  /* três colunas separadas por linha fina, como no protótipo do desktop */
   .quem__pilares {
     margin: 48px 0 0;
     display: grid;
@@ -1590,7 +1590,7 @@
   gap: 22px;
 }
 
-/* campo só com linha inferior; o label sobe ao focar, na Fase 5 */
+/* campo só com linha inferior; o label sobe ao focar */
 .ajudar__campo {
   position: relative;
   display: block;
@@ -1633,7 +1633,7 @@
   border-bottom-color: var(--menta);
 }
 
-/* o label sobe sozinho em CSS; a Fase 5 troca por GSAP */
+/* o label sobe sozinho em CSS, sem depender de JavaScript */
 .ajudar__campo input:focus + .ajudar__campo-label,
 .ajudar__campo textarea:focus + .ajudar__campo-label,
 .ajudar__campo input:not(:placeholder-shown) + .ajudar__campo-label,
@@ -1700,7 +1700,7 @@
   }
 
   /*
-   * Centralizado, como no mobile. O source do desktop encostava o coração na
+   * Centralizado, como no mobile. O protótipo do desktop encostava o coração na
    * direita (right: 6%), onde ele colidia com o fim do título e caía em cima
    * da terceira coluna. Centralizado ele fica atrás do título, que é a
    * leitura que a versão principal usa.
@@ -1755,8 +1755,8 @@
   }
 
   /*
-   * O source do desktop escreve a chave em Sentient a clamp(24,2.2vw,32).
-   * O PROMPT pede Switzer com algarismos tabulares, que é bem mais largo:
+   * O protótipo do desktop escreve a chave em Sentient a clamp(24,2.2vw,32).
+   * A especificação pede Switzer com algarismos tabulares, que é bem mais largo:
    * nesse corpo a chave quebra em duas linhas dentro da coluna. Mantemos a
    * fonte pedida e fechamos o corpo e o tracking até caber numa linha só.
    */
