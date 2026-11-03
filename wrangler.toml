@@ -8,5 +8,5 @@ compatibility_date = "2026-10-01"
 binding = "DB"
 database_name = "arte-de-amar"
 # trocar pelo id que `npx wrangler d1 create arte-de-amar` devolver
-database_id = "00000000-0000-0000-0000-000000000000"
+database_id = "f4f02cd1-4004-41a6-8919-8b3af36e9bd6"
 migrations_dir = "migrations"
