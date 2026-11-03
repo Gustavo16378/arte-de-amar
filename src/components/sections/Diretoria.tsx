@@ -1,4 +1,5 @@
 import { useRef, type CSSProperties } from 'react'
+import { useIsMobile } from '../../hooks/useIsMobile'
 import { useMotionProximo } from '../../hooks/useMotionProximo'
 import { Blob } from '../Blob'
 import { Fio } from '../Fio'
@@ -23,6 +24,7 @@ import { DIRETORIA } from '../../content/site'
  */
 export function Diretoria() {
   const secao = useRef<HTMLElement>(null)
+  const mobile = useIsMobile()
 
   useMotionProximo(secao, () => {
     const el = secao.current
@@ -98,8 +100,12 @@ export function Diretoria() {
           <h2 className="titulo-secao diretoria__titulo">{comEnfase(DIRETORIA.titulo)}</h2>
         </div>
 
-        {/* no celular o mural rola de lado: tabIndex deixa rolar pelo teclado */}
-        <ul className="diretoria__carrossel sem-barra" tabIndex={0} aria-label="Pessoas da diretoria">
+        {/* no celular o mural rola de lado: tabIndex deixa rolar pelo teclado (no desktop ele não rola) */}
+        <ul
+          className="diretoria__carrossel sem-barra"
+          tabIndex={mobile ? 0 : undefined}
+          aria-label="Pessoas da diretoria"
+        >
           {MEMBROS.map((m, i) => (
             <li
               key={`${m.cargo}-${i}`}

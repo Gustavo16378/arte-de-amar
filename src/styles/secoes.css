@@ -894,6 +894,31 @@
   -webkit-overflow-scrolling: touch;
 }
 
+/*
+ * O mural pode receber foco pelo teclado para rolar de lado. Clique ou toque
+ * não mostra contorno nenhum; o Tab mostra um contorno arredondado, longe das
+ * fotos.
+ */
+.diretoria__carrossel:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.diretoria__carrossel:focus-visible {
+  outline-offset: 6px;
+  border-radius: 16px;
+}
+
+/* arrastar o mural não pode sair selecionando foto e texto */
+.diretoria__retrato {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.diretoria__retrato img {
+  -webkit-user-drag: none;
+}
+
 .diretoria__card {
   flex: none;
   width: 220px;
