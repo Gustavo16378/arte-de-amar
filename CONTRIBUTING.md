@@ -76,8 +76,19 @@ Mudou o formato de uma resposta da API? Atualize o contrato em
 ## Banco
 
 Mudança de esquema é sempre uma migration nova, com o próximo número
-(`0006_...sql`). Migration que já foi para produção não se edita. Depois do
-merge, aplique em produção com `npm run db:remoto`.
+(`0006_...sql`). Migration que já foi para produção não se edita.
+
+**Ordem do deploy: banco primeiro, código depois.** O push na `main` publica
+o código na hora; se ele já consulta uma tabela ou coluna que o banco de
+produção ainda não tem, a API responde 500 (o site cai no conteúdo de
+reserva, mas o painel e o formulário param). Por isso:
+
+1. escreva migrations que só acrescentam (tabela nova, coluna nova com
+   valor padrão), para o código antigo continuar funcionando com elas;
+2. aplique em produção com `npm run db:remoto` antes do merge;
+3. só então junte o código que usa o que a migration criou.
+
+Para conferir o que falta aplicar: `npx wrangler d1 migrations list arte-de-amar --remote`.
 
 ## O que não entra no repositório
 
