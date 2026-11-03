@@ -100,4 +100,4 @@ export const MARCOS: Marco[] = [
 ]
 
 /** O mobile mostra seis marcos; o sétimo ("Hoje") é exclusivo da timeline do desktop. */
-export const MARCOS_MOBILE = MARCOS.slice(0, 6)
+export const MARCOS_MOBILE: Marco[] = MARCOS.slice(0, 6)

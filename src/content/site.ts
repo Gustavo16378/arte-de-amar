@@ -5,6 +5,11 @@
 
 import { FOTOS } from './fotos'
 
+/**
+ * `whatsappNumero`, `whatsapp` e `pix` podem ser trocados pela diretoria no
+ * painel: lib/conteudo-remoto.ts sobrescreve antes do primeiro render. Por
+ * isso este objeto não é `as const`.
+ */
 export const SITE = {
   nome: 'Arte de Amar',
   nomeCompleto: 'OSC Arte de Amar',
@@ -13,6 +18,7 @@ export const SITE = {
   local: 'Palmas, Tocantins',
   desde: 2015,
   cnpj: '40.019.106/0001-51',
+  pix: '40.019.106/0001-51',
   instagram: '@ongartedeamar',
   instagramUrl: 'https://instagram.com/ongartedeamar',
   // TODO número real da ONG, confirmar com a diretoria
@@ -23,7 +29,7 @@ export const SITE = {
     'Organização da sociedade civil de Palmas, Tocantins. Desde 2015 acompanhamos crianças e famílias em vulnerabilidade com campanhas, voluntários e parceiros.',
   // domínio do Cloudflare Pages; trocar se a ONG registrar um próprio
   url: 'https://arte-de-amar-site.pages.dev/',
-} as const
+}
 
 export const NAV = [
   { id: 'inicio', label: 'Início' },
@@ -48,12 +54,20 @@ export const HERO = {
  * Números de impacto.
  * TODO confirmar com a ONG: os quatro valores são estimativas do design.
  */
-export const NUMEROS = [
+export type Numero = {
+  valor: number
+  sufixo: string
+  label: string
+  velocidade: number
+  alinhamento: 'start' | 'end' | 'center'
+}
+
+export const NUMEROS: Numero[] = [
   { valor: 11, sufixo: '', label: 'anos de atuação', velocidade: 0.04, alinhamento: 'start' },
   { valor: 3197, sufixo: '+', label: 'crianças atendidas', velocidade: 0.06, alinhamento: 'end' },
   { valor: 40, sufixo: '+', label: 'campanhas realizadas', velocidade: 0.05, alinhamento: 'start' },
   { valor: 120, sufixo: '+', label: 'voluntários ativos', velocidade: 0.07, alinhamento: 'center' },
-] as const
+]
 
 export const QUEM_SOMOS = {
   rotulo: 'Quem somos',

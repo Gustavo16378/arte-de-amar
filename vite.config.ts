@@ -7,6 +7,11 @@ export default defineConfig({
     outDir: 'dist',
     assetsInlineLimit: 2048,
     rollupOptions: {
+      // o site e o painel da diretoria (/admin) saem do mesmo build
+      input: {
+        site: 'index.html',
+        admin: 'admin.html',
+      },
       output: {
         /*
          * Separa as bibliotecas do código do site. Elas quase não mudam, e

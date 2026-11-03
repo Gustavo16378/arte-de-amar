@@ -20,6 +20,8 @@ export type Projeto = {
   meta: [number, number, string] | null
   depoimento: string
   autor: string
+  /** link do vídeo da campanha (YouTube, Instagram), cadastrado pelo painel */
+  videoUrl?: string | null
 }
 
 export const PROJETOS: Projeto[] = [

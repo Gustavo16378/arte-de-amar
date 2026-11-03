@@ -55,10 +55,111 @@ Se isso passar a importar, dá para rolar até a âncora quando a cortina sobe.
 4. Se a ONG registrar um domínio próprio, ligue em **Custom domains** (o
    certificado sai sozinho) e troque o endereço nesses quatro arquivos.
 
-Não há backend: o formulário de voluntário abre uma conversa no WhatsApp da
-ONG com a mensagem já escrita ("Olá, quero ser voluntário da Arte de Amar.
-Meu nome é {nome}. Gostaria de ajudar com: {texto}"). Quem recebe o contato é
-a diretoria, no telefone dela, que ainda é um número de exemplo.
+### Ligar o backend (uma vez só)
+
+O site e a API sobem juntos: o Cloudflare Pages publica o `dist/` e
+transforma cada arquivo de [`functions/`](functions) numa rota. O banco é um
+D1 (SQLite da Cloudflare). Tudo no plano gratuito, sem cartão.
+
+```bash
+npx wrangler login                        # abre o navegador na conta da Cloudflare
+npx wrangler d1 create arte-de-amar       # devolve o database_id
+```
+
+1. Cole o `database_id` em [`wrangler.toml`](wrangler.toml) e faça commit.
+2. Crie as tabelas e o conteúdo inicial no banco de produção:
+   `npm run db:remoto`
+3. Crie o segredo das sessões em **Pages → arte-de-amar-site → Settings →
+   Variables and Secrets**: `JWT_SECRET`, tipo *Secret*, com um texto
+   aleatório de 32 caracteres ou mais
+   (`node -e "console.log(require('crypto').randomBytes(32).toString('base64url'))"`).
+4. Em **Settings → Bindings**, confira se o D1 `arte-de-amar` aparece como
+   `DB` (o `wrangler.toml` já declara; se não aparecer, adicione à mão).
+5. Crie o login de cada pessoa da diretoria (a senha é pedida no terminal e
+   só o hash vai para o banco):
+   `npm run admin -- --remote "Nome da pessoa" email@exemplo.com`
+6. Faça um novo deploy. O painel fica em `/admin`.
+
+---
+
+## Backend e painel da diretoria
+
+```
+site (/)  ──GET /api/conteudo──▶  Pages Functions  ──▶  D1
+painel (/admin) ──/api/admin/*──▶  (login por cookie)
+```
+
+**O que a diretoria edita pelo painel:** projetos (com meta, depoimento e
+link de vídeo), linha do tempo, diretoria com retratos, números de impacto,
+fotos, contatos (WhatsApp e PIX) e a própria senha. Também vê quem se
+inscreveu em "Ser voluntário" e chama a pessoa no WhatsApp com um toque.
+
+**Como o site lê o conteúdo.** [`src/lib/conteudo-remoto.ts`](src/lib/conteudo-remoto.ts)
+busca `/api/conteudo` antes do primeiro render (o `index.html` já faz
+preload) e troca as listas de `src/content` no lugar. Se a API demorar mais
+de 2,5 s ou cair, o site sobe com o conteúdo do código, que continua sendo
+a reserva. Trocar antes do render é de propósito: as seções medem o DOM
+para montar o GSAP, e conteúdo chegando depois deixaria as medidas erradas.
+
+**Fotos.** As do site original ficam em `/assets/fotos` e passam pelo
+`gerar-imagens.mjs`. As enviadas pelo painel são reduzidas no navegador
+(até 1600px, WebP) e guardadas no próprio D1, servidas por
+`/api/midias/:id` com cache de um ano. Assim não depende do R2, que pede
+cartão mesmo no plano gratuito.
+
+**Formulário de voluntário.** Grava no banco e aparece no painel. Se a API
+estiver fora do ar, cai no comportamento antigo: abre o WhatsApp da ONG com
+a mensagem pronta.
+
+### Rotas
+
+| método | rota | o que faz |
+|---|---|---|
+| GET | `/api/conteudo` | tudo que o site mostra, numa ida ao banco |
+| POST | `/api/voluntarios` | formulário "Ser voluntário" |
+| GET | `/api/midias/:id` | foto enviada pelo painel |
+| POST | `/api/auth/login` · `/logout` | entra e sai |
+| GET | `/api/auth/eu` | quem está logado |
+| GET, POST | `/api/admin/:entidade` | lista e cria (`projetos`, `marcos`, `membros`, `numeros`) |
+| PUT, DELETE | `/api/admin/:entidade/:id` | edita e apaga |
+| PUT | `/api/admin/:entidade/ordem` | grava a nova ordem |
+| GET, POST | `/api/admin/midias` | biblioteca e upload |
+| PUT, DELETE | `/api/admin/midias/:id` | descrição e exclusão |
+| GET, PUT, DELETE | `/api/admin/voluntarios[/:id]` | contatos e status |
+| GET, PUT | `/api/admin/configuracoes` | WhatsApp e PIX |
+| PUT | `/api/admin/senha` | troca a própria senha |
+
+### Segurança
+
+- Senha com PBKDF2-SHA256 e salt por usuário (100 mil iterações, o teto do
+  runtime da Cloudflare), comparação em tempo constante.
+- Sessão em JWT HS256 num cookie `HttpOnly`, `Secure`, `SameSite=Strict`,
+  válida por 8 horas. O JavaScript da página nunca vê o token.
+- Tudo em `/api/admin` passa pelo [`_middleware.ts`](functions/api/admin/_middleware.ts):
+  sem sessão, 401; pedido que altera dados vindo de outra origem, 403.
+- Login trava 15 minutos depois de 5 senhas erradas no mesmo e-mail, com a
+  mesma mensagem para e-mail inexistente e senha errada.
+- Tabela e coluna nunca vêm do pedido: saem da lista fechada em
+  [`_lib/entidades.ts`](functions/_lib/entidades.ts), e os valores vão por bind.
+- Upload confere o tipo pelos primeiros bytes do arquivo, não pelo que o
+  navegador diz, e tem teto de 1,5 MB.
+- Formulário de voluntário com campo-isca para robô e teto de 5 cadastros
+  por hora por IP.
+
+### Rodar com o backend localmente
+
+```bash
+cp .dev.vars.example .dev.vars            # e troque o JWT_SECRET
+npm run db:local                          # cria o banco local com o seed
+npm run admin -- --local "Seu nome" voce@exemplo.com
+npm run dev:api                           # http://localhost:8788 e /admin
+```
+
+`npm run dev` (só o Vite) continua funcionando sem backend: o site usa o
+conteúdo do código e o formulário cai no WhatsApp.
+
+O seed em [`migrations/0002_seed.sql`](migrations/0002_seed.sql) é gerado a
+partir de `src/content` por `npx tsx scripts/gerar-seed.ts`.
 
 ---
 
@@ -125,14 +226,23 @@ principal caiu de **690ms para 120ms**.
 ```
 src/
   content/      textos, números, marcos, membros, projetos, catálogo de fotos
+                (o conteúdo de reserva; o editável vem da API)
   styles/       tokens, fontes, base, componentes, header, preloader, seções
-  lib/          gsap, lenis, desenho do traço, motion, paths do fio e do coração
+  lib/          gsap, lenis, desenho do traço, motion, paths do fio e do coração,
+                conteudo-remoto (leitura da API)
   components/   peças reutilizadas e uma pasta sections/ com as nove seções
   hooks/        rolagem, tema do header, navegação, scroll lock, motion adiado
+  admin/        o painel da diretoria (entrada própria, admin.html)
+functions/
+  _lib/         auth, http, entidades e validação, montagem do conteúdo
+  api/          as rotas; api/admin/_middleware.ts protege o painel
+migrations/     esquema do D1 e o seed com o conteúdo inicial
 scripts/
   gerar-imagens.mjs  versões responsivas das fotos, em WebP e JPG
   gerar-grao.mjs     ladrilho da granulação
   gerar-og.mjs       public/og-image.jpg, 1200x630
+  gerar-seed.ts      migrations/0002_seed.sql a partir de src/content
+  criar-admin.mjs    cria ou troca a senha de um usuário do painel
 ```
 
 As folhas de estilo são importadas em ordem no `main.tsx`: primeiro a base do
@@ -284,7 +394,8 @@ espírito do resto do site.
 
 ## Pendências para a ONG
 
-Tudo marcado com `TODO` no código.
+Tudo marcado com `TODO` no código. Com o painel no ar, a diretoria mesma
+resolve diretoria, números, WhatsApp e metas em `/admin`.
 
 | onde | o que falta |
 |---|---|

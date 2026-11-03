@@ -1,0 +1,3 @@
+# Copie para .dev.vars (fora do Git) para rodar a API localmente.
+# Em produção, este valor é um secret do projeto no Cloudflare Pages.
+JWT_SECRET=troque-por-um-texto-aleatorio-com-mais-de-32-caracteres

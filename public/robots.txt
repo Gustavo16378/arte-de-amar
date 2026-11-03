@@ -2,5 +2,7 @@
 # domínio do Cloudflare Pages; trocar se a ONG registrar um próprio
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /api/
 
 Sitemap: https://arte-de-amar-site.pages.dev/sitemap.xml

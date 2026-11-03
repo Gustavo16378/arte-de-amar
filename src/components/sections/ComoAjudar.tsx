@@ -8,6 +8,7 @@ import { CoracaoDoFio } from '../CoracaoDoFio'
 import { Fio } from '../Fio'
 import { comEnfase } from '../Titulo'
 import { AJUDAR, SITE } from '../../content/site'
+import { enviarVoluntario } from '../../lib/conteudo-remoto'
 
 /**
  * Como ajudar. O fio chega ao centro, curva e termina na fenda superior do
@@ -22,6 +23,8 @@ import { AJUDAR, SITE } from '../../content/site'
 export function ComoAjudar() {
   const [copiada, setCopiada] = useState(false)
   const [enviado, setEnviado] = useState(false)
+  const [enviando, setEnviando] = useState(false)
+  const [erroEnvio, setErroEnvio] = useState<string | null>(null)
   const timer = useRef<number>()
   const secao = useRef<HTMLElement>(null)
 
@@ -59,30 +62,49 @@ export function ComoAjudar() {
   })
 
   /*
-   * Sem backend: o envio abre uma conversa no WhatsApp da ONG com a mensagem
-   * já escrita. Quem recebe o contato é a diretoria, no telefone dela.
+   * O contato vai para o banco e aparece no painel da diretoria. Se a API
+   * estiver fora do ar, o envio cai no plano antigo: abre o WhatsApp da ONG
+   * com a mensagem já escrita, para ninguém perder o voluntário.
    */
-  function enviar(e: FormEvent<HTMLFormElement>) {
+  async function enviar(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    if (enviando) return
     const dados = new FormData(e.currentTarget)
     const nome = String(dados.get('nome') ?? '').trim()
+    const whatsapp = String(dados.get('whatsapp') ?? '').trim()
     const texto = String(dados.get('como') ?? '').trim()
 
-    const mensagem = AJUDAR.voluntario.mensagem
-      .replace('{nome}', nome)
-      .replace('{texto}', texto || 'o que for preciso')
+    setEnviando(true)
+    setErroEnvio(null)
+    const falha = await enviarVoluntario({
+      nome,
+      whatsapp,
+      como: texto,
+      site: String(dados.get('site') ?? ''),
+    })
+    setEnviando(false)
 
-    window.open(
-      `https://wa.me/${SITE.whatsappNumero}?text=${encodeURIComponent(mensagem)}`,
-      '_blank',
-      'noopener,noreferrer',
-    )
+    if (falha && falha !== 'offline') {
+      setErroEnvio(falha)
+      return
+    }
+
+    if (falha === 'offline') {
+      const mensagem = AJUDAR.voluntario.mensagem
+        .replace('{nome}', nome)
+        .replace('{texto}', texto || 'o que for preciso')
+      window.open(
+        `https://wa.me/${SITE.whatsappNumero}?text=${encodeURIComponent(mensagem)}`,
+        '_blank',
+        'noopener,noreferrer',
+      )
+    }
     setEnviado(true)
   }
 
   async function copiarPix() {
     try {
-      await navigator.clipboard.writeText(SITE.cnpj)
+      await navigator.clipboard.writeText(SITE.pix)
     } catch {
       /* sem permissão de área de transferência: a chave segue visível na tela */
     }
@@ -131,7 +153,7 @@ export function ComoAjudar() {
           <span className="rotulo-simples ajudar__pix-rotulo">
             {AJUDAR.doar.pixRotulo}
           </span>
-          <span className="ajudar__pix-chave">{SITE.cnpj}</span>
+          <span className="ajudar__pix-chave">{SITE.pix}</span>
 
           <Botao
             aparencia="menta"
@@ -186,8 +208,29 @@ export function ComoAjudar() {
                 ))}
               </div>
 
-              <Botao aparencia="contorno" largo type="submit" className="ajudar__enviar">
-                {AJUDAR.voluntario.botao}
+              {/* invisível para pessoas: só robô preenche, e a API descarta */}
+              <input
+                name="site"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                className="ajudar__isca"
+              />
+
+              {erroEnvio && (
+                <p className="ajudar__erro" role="alert">
+                  {erroEnvio}
+                </p>
+              )}
+
+              <Botao
+                aparencia="contorno"
+                largo
+                type="submit"
+                className="ajudar__enviar"
+                disabled={enviando}
+              >
+                {enviando ? 'Enviando…' : AJUDAR.voluntario.botao}
               </Botao>
             </>
           )}

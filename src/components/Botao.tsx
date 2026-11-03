@@ -25,7 +25,7 @@ type Base = {
 
 type Props =
   | (Base & { href: string; onClick?: never; type?: never })
-  | (Base & { href?: never; onClick?: () => void; type?: 'button' | 'submit' })
+  | (Base & { href?: never; onClick?: () => void; type?: 'button' | 'submit'; disabled?: boolean })
 
 export function Botao({
   aparencia = 'escuro',
@@ -66,7 +66,12 @@ export function Botao({
   }
 
   return (
-    <button type={resto.type ?? 'button'} onClick={resto.onClick} className={classes}>
+    <button
+      type={resto.type ?? 'button'}
+      onClick={resto.onClick}
+      disabled={'disabled' in resto ? resto.disabled : undefined}
+      className={classes}
+    >
       {conteudo}
     </button>
   )

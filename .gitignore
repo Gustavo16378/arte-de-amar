@@ -11,3 +11,7 @@ public/assets/fotos/gerado/
 
 # uso local com Claude Code
 CLAUDE.md
+
+# segredos e banco local do wrangler
+.dev.vars
+.wrangler/

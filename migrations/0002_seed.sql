@@ -1,0 +1,44 @@
+-- Arte de Amar · conteúdo inicial, gerado por scripts/gerar-seed.ts
+-- Não editar à mão: rodar o script de novo.
+
+INSERT INTO midias (id, caminho, tipo, alt, largura, altura) VALUES (1, '/assets/fotos/hero-menino-mochila.jpg', 'image/jpeg', 'Menino sorrindo com sua mochila nova', 1600, 2400);
+INSERT INTO midias (id, caminho, tipo, alt, largura, altura) VALUES (2, '/assets/fotos/equipe-circulo.jpg', 'image/jpeg', 'Voluntários e motociclistas reunidos em círculo na Ação de Páscoa', 1800, 2400);
+INSERT INTO midias (id, caminho, tipo, alt, largura, altura) VALUES (3, '/assets/fotos/equipe-mural.jpg', 'image/jpeg', 'Voluntárias e voluntários da Arte de Amar diante de um mural colorido', 2400, 1800);
+INSERT INTO midias (id, caminho, tipo, alt, largura, altura) VALUES (4, '/assets/fotos/mcdia-feliz.jpg', 'image/jpeg', 'Mesa coberta de Big Macs preparados para o McDia Feliz', 1800, 2400);
+INSERT INTO midias (id, caminho, tipo, alt, largura, altura) VALUES (5, '/assets/fotos/equipe-lar-batista.jpg', 'image/jpeg', 'Equipe da Arte de Amar reunida no Lar Batista', 1800, 2400);
+INSERT INTO midias (id, caminho, tipo, alt, largura, altura) VALUES (6, '/assets/fotos/pascoa-motociclistas.jpg', 'image/jpeg', 'Motociclistas com os ovos de Páscoa que vão entregar', 1600, 2844);
+INSERT INTO midias (id, caminho, tipo, alt, largura, altura) VALUES (7, '/assets/fotos/distribuicao-roupas.jpg', 'image/jpeg', 'Famílias escolhendo roupas numa ação de distribuição', 1200, 1600);
+INSERT INTO midias (id, caminho, tipo, alt, largura, altura) VALUES (8, '/assets/fotos/doacoes-natal.jpg', 'image/jpeg', 'Alimentos, roupas e brinquedos separados para o Natal Solidário', 960, 540);
+INSERT INTO midias (id, caminho, tipo, alt, largura, altura) VALUES (9, '/assets/fotos/doacoes-enxoval-bebe.jpg', 'image/jpeg', 'Enxoval de bebê montado com as doações recebidas', 1280, 720);
+INSERT INTO midias (id, caminho, tipo, alt, largura, altura) VALUES (10, '/assets/fotos/triagem-roupas.jpg', 'image/jpeg', 'Voluntárias fazendo a triagem de uma montanha de roupas doadas', 240, 320);
+INSERT INTO midias (id, caminho, tipo, alt, largura, altura) VALUES (11, '/assets/fotos/criancas-comunidade.jpg', 'image/jpeg', 'Crianças e famílias reunidas na comunidade durante uma ação', 240, 320);
+
+INSERT INTO projetos (nome, objetivo, objetivo_curto, publico, status, foto_id, foto_posicao, meta_feito, meta_total, meta_unidade, depoimento, autor, ordem) VALUES ('Dia das Crianças 2026', 'Um dia inteiro de brincadeira, lanche e um presente escolhido para cada criança da comunidade.', 'Um dia inteiro de brincadeira, lanche e um presente escolhido para cada criança.', 'Crianças de 2 a 12 anos', 'Em andamento', 5, '50% 40%', 112, 150, 'crianças', '“Meu filho não parou de falar da festa. Foi o primeiro presente que ele ganhou no ano.”', 'Mãe atendida, 2025', 0);
+INSERT INTO projetos (nome, objetivo, objetivo_curto, publico, status, foto_id, foto_posicao, meta_feito, meta_total, meta_unidade, depoimento, autor, ordem) VALUES ('Volta às Aulas', 'Mochila completa e material escolar entregue em mãos antes do primeiro dia de aula.', 'Mochila completa e material entregue em mãos antes do primeiro dia de aula.', 'Estudantes da rede pública', 'Em andamento', 1, '50% 30%', 86, 120, 'mochilas', '“Ele escolheu a mochila dos Minions e dormiu com ela do lado.”', 'Avó atendida, 2026', 1);
+INSERT INTO projetos (nome, objetivo, objetivo_curto, publico, status, foto_id, foto_posicao, meta_feito, meta_total, meta_unidade, depoimento, autor, ordem) VALUES ('Ação de Páscoa', 'Ovos, brincadeiras e uma manhã de festa com apoio de motoclubes e voluntários da cidade.', 'Ovos, brincadeiras e uma manhã de festa com motoclubes e voluntários da cidade.', 'Crianças e famílias', 'Concluído', 6, '50% 50%', NULL, NULL, NULL, '“Nunca vi tanta moto e tanta criança rindo no mesmo lugar.”', 'Voluntária, 2025', 2);
+INSERT INTO projetos (nome, objetivo, objetivo_curto, publico, status, foto_id, foto_posicao, meta_feito, meta_total, meta_unidade, depoimento, autor, ordem) VALUES ('McDia Feliz', 'Venda de Big Macs em parceria com o McDonald’s, com renda destinada ao Hospital de Amor.', 'Big Macs vendidos com o McDonald’s, renda para o Hospital de Amor.', 'Crianças em tratamento oncológico', 'Concluído', 4, '50% 60%', NULL, NULL, NULL, '“A fila deu a volta no quarteirão. A gente chorou.”', 'Voluntário, 2024', 3);
+INSERT INTO projetos (nome, objetivo, objetivo_curto, publico, status, foto_id, foto_posicao, meta_feito, meta_total, meta_unidade, depoimento, autor, ordem) VALUES ('Natal Solidário', 'Brinquedo, roupa e ceia para que dezembro tenha mesa cheia e presente embaixo da árvore.', 'Brinquedo, roupa e ceia para dezembro ter mesa cheia.', 'Famílias cadastradas', 'Concluído', 8, '50% 50%', NULL, NULL, NULL, '“Foi o primeiro Natal que eu não precisei explicar nada pros meninos.”', 'Pai atendido, 2024', 4);
+INSERT INTO projetos (nome, objetivo, objetivo_curto, publico, status, foto_id, foto_posicao, meta_feito, meta_total, meta_unidade, depoimento, autor, ordem) VALUES ('SOS Rio Grande do Sul', 'Triagem e envio de roupas, água e alimentos para as famílias atingidas pela enchente.', 'Triagem e envio de roupas, água e alimentos para as famílias atingidas pela enchente.', 'Famílias desabrigadas no RS', 'Concluído', 7, '50% 40%', NULL, NULL, NULL, '“Chegou uma caixa escrita ‘com amor, de Palmas’. Guardei o bilhete.”', 'Família acolhida, 2024', 5);
+
+INSERT INTO marcos (ano, titulo, texto, texto_desktop, foto_id, foto_posicao, so_desktop, ordem) VALUES ('2015', 'A fundação', 'Um grupo de amigos decide que amar precisa virar ação. A primeira arrecadação sai da sala de casa.', 'Um grupo de amigos em Palmas decide que amar precisa virar ação. A primeira arrecadação sai da sala de casa.', 10, '50% 50%', 0, 0);
+INSERT INTO marcos (ano, titulo, texto, texto_desktop, foto_id, foto_posicao, so_desktop, ordem) VALUES ('2016', 'Primeira Volta às Aulas', 'Mochilas e material para que nenhuma criança comece o ano sem o essencial.', 'Mochilas e material escolar para que nenhuma criança comece o ano sem o essencial.', 11, '50% 30%', 0, 1);
+INSERT INTO marcos (ano, titulo, texto, texto_desktop, foto_id, foto_posicao, so_desktop, ordem) VALUES ('2017', 'Primeiro Natal Solidário', 'Brinquedos, roupas e ceia. O Natal vira campanha permanente.', 'Brinquedos, roupas e ceia. O Natal deixa de ser data e vira campanha permanente.', 8, '50% 50%', 0, 2);
+INSERT INTO marcos (ano, titulo, texto, texto_desktop, foto_id, foto_posicao, so_desktop, ordem) VALUES ('2022', 'McDia Feliz', 'Com o McDonald’s e o Hospital de Amor, a corrente sai de Palmas.', 'A parceria com o McDonald’s e a Casa Ronald McDonald leva a corrente para além de Palmas.', 4, '50% 60%', 0, 3);
+INSERT INTO marcos (ano, titulo, texto, texto_desktop, foto_id, foto_posicao, so_desktop, ordem) VALUES ('2024', 'SOS Rio Grande do Sul', 'Triagem, caixas e caminhão a dois mil quilômetros de distância.', 'Triagem, caixas e caminhão. A rede de Palmas responde à enchente a dois mil quilômetros de distância.', 7, '50% 40%', 0, 4);
+INSERT INTO marcos (ano, titulo, texto, texto_desktop, foto_id, foto_posicao, so_desktop, ordem) VALUES ('2025', 'Dia das Crianças', 'A maior festa até aqui, com o Lar Batista e dezenas de voluntários novos.', 'A maior festa até aqui, com o Lar Batista e dezenas de voluntários novos.', 5, '50% 45%', 0, 5);
+INSERT INTO marcos (ano, titulo, texto, texto_desktop, foto_id, foto_posicao, so_desktop, ordem) VALUES ('Hoje', 'Onze anos de fio', 'Mais campanhas, mais parceiros e a mesma vontade de 2015. O próximo marco pode ter o seu nome.', 'Mais campanhas, mais parceiros e a mesma vontade de 2015. O próximo marco pode ter o seu nome.', 1, '50% 25%', 1, 6);
+
+INSERT INTO membros (nome, cargo, foto_id, ordem) VALUES ('Nome Sobrenome', 'Presidente', NULL, 0);
+INSERT INTO membros (nome, cargo, foto_id, ordem) VALUES ('Nome Sobrenome', 'Vice-presidente', NULL, 1);
+INSERT INTO membros (nome, cargo, foto_id, ordem) VALUES ('Nome Sobrenome', 'Tesoureira', NULL, 2);
+INSERT INTO membros (nome, cargo, foto_id, ordem) VALUES ('Nome Sobrenome', 'Secretária', NULL, 3);
+INSERT INTO membros (nome, cargo, foto_id, ordem) VALUES ('Nome Sobrenome', 'Diretora de projetos', NULL, 4);
+INSERT INTO membros (nome, cargo, foto_id, ordem) VALUES ('Nome Sobrenome', 'Conselho fiscal', NULL, 5);
+
+INSERT INTO numeros (valor, sufixo, label, ordem) VALUES (11, '', 'anos de atuação', 0);
+INSERT INTO numeros (valor, sufixo, label, ordem) VALUES (3197, '+', 'crianças atendidas', 1);
+INSERT INTO numeros (valor, sufixo, label, ordem) VALUES (40, '+', 'campanhas realizadas', 2);
+INSERT INTO numeros (valor, sufixo, label, ordem) VALUES (120, '+', 'voluntários ativos', 3);
+
+INSERT INTO configuracoes (chave, valor) VALUES ('whatsapp', '5563999999999');
+INSERT INTO configuracoes (chave, valor) VALUES ('pix', '40.019.106/0001-51');

@@ -1,0 +1,12 @@
+# Configuração do Cloudflare Pages: o site (dist) e a API (functions/)
+# sobem juntos no mesmo deploy.
+name = "arte-de-amar-site"
+pages_build_output_dir = "dist"
+compatibility_date = "2026-10-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "arte-de-amar"
+# trocar pelo id que `npx wrangler d1 create arte-de-amar` devolver
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "migrations"

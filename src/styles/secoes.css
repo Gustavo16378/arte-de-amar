@@ -1271,6 +1271,26 @@
   display: none;
 }
 
+/* link do vídeo, cadastrado pelo painel */
+.projetos__video {
+  display: inline-block;
+  margin-top: 16px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: .04em;
+  color: var(--verde-profundo);
+  text-decoration: underline;
+  text-decoration-color: var(--esmeralda);
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1.5px;
+}
+
+.projetos__video:focus-visible {
+  outline: 2px solid var(--esmeralda);
+  outline-offset: 4px;
+}
+
 @media (min-width: 1024px) {
   .projetos {
     padding-top: clamp(80px, 14vh, 160px);
@@ -1614,6 +1634,27 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+
+.ajudar__isca {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.ajudar__erro {
+  margin-top: 20px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--terracota);
+}
+
+.ajudar__enviar:disabled {
+  opacity: .6;
+  cursor: progress;
 }
 
 .ajudar__sucesso {

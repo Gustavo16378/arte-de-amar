@@ -44,6 +44,26 @@ function conjunto(src: string, largura: number, formato: 'webp' | 'jpg') {
 export function Foto({ foto, tamanhos = '100vw', prioridade, className, style }: Props) {
   const { src, alt, largura, altura, posicao } = foto
 
+  /*
+   * Foto enviada pelo painel (/api/midias/...) não passa pelo
+   * gerar-imagens.mjs: o painel já reduz para no máximo 1600px antes de
+   * subir, então vai direto, sem srcset.
+   */
+  if (!src.startsWith('/assets/fotos/')) {
+    return (
+      <img
+        src={src}
+        alt={alt}
+        width={largura}
+        height={altura}
+        className={className}
+        loading={prioridade ? 'eager' : 'lazy'}
+        decoding="async"
+        style={{ objectPosition: posicao, ...style }}
+      />
+    )
+  }
+
   return (
     <picture>
       <source type="image/webp" srcSet={conjunto(src, largura, 'webp')} sizes={tamanhos} />

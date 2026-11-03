@@ -208,6 +208,18 @@ export function Projetos() {
                     />
                   )}
 
+                  {p.videoUrl && (
+                    <a
+                      className="projetos__video"
+                      href={p.videoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Ver o vídeo da campanha
+                      <span aria-hidden="true"> ↗</span>
+                    </a>
+                  )}
+
                   <blockquote className="projetos__depoimento">
                     <p>{p.depoimento}</p>
                     <footer>{p.autor}</footer>
