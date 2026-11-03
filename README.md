@@ -346,21 +346,19 @@ espírito do resto do site.
   `.so-desktop` escondem uma. Evita medir a viewport em JS e não pisca na
   primeira pintura. As fotos são as mesmas, então o navegador baixa cada
   arquivo uma vez só.
-- **Fio do mobile a 20px da borda.** O `FIO.m` do source do desktop põe o fio
-  a 31px; o source do mobile, que é a versão principal, desenha a 20px.
-  Usamos o `FIO_M` da prancha. O `FIO.m` ficou registrado em
-  `src/lib/fio-paths.ts` para consulta.
+- **Fio do mobile a 20px da borda.** O protótipo do desktop punha o fio a
+  31px no mobile; o protótipo do mobile, que é a versão principal, desenha a
+  20px. Vale o do mobile (`FIO_MOBILE` em `src/lib/fio-paths.ts`).
 - **Duas fotos chegaram com o nome trocado** e foram renomeadas:
   `equipe-mural.jpg` tinha os Big Macs e `mcdia-feliz.jpg` tinha a equipe no
   mural. Tudo passa por `src/content/fotos.ts`.
 - **Chave PIX em Switzer com algarismos tabulares**, como a especificação pede.
-  É mais larga que a Sentient do source e quebrava em duas linhas no desktop,
+  É mais larga que a Sentient do protótipo e quebrava em duas linhas no desktop,
   então o corpo e o tracking foram fechados até caber numa linha.
-- **Sem travessão em texto nenhum**, conforme as regras do projeto. O `— {nome}` do
-  depoimento virou só o nome.
-- **Barra do header a 82% de opacidade**, como nos dois `source.html`. O
-  briefing fala em 92%; os sources são a fonte da verdade.
-- **O coração de Como ajudar é centralizado no desktop.** O source o
+- **Sem travessão nos textos.** O `— {nome}` do depoimento virou só o nome.
+- **Barra do header a 82% de opacidade**, como nos protótipos aprovados. O
+  briefing falava em 92%; os protótipos são a referência.
+- **O coração de Como ajudar é centralizado no desktop.** O protótipo o
   encostava na direita, onde colidia com o fim do título e caía em cima da
   terceira coluna.
 
@@ -420,7 +418,7 @@ espírito do resto do site.
   especificação dariam 3150px de rolagem para um percurso de 3352px em 1440: o
   fim do trilho ficaria inalcançável.
 - **A onda cruza o meio exatamente em cada marco**, onde está o pontinho. O
-  source usava período fixo de 380px, sem relação com o espaçamento.
+  protótipo usava período fixo de 380px, sem relação com o espaçamento.
 - **O índice lateral sai de cena durante a linha do tempo**, onde os marcos
   passavam por baixo dele.
 - **Sem movimento, o desktop usa a história vertical**: a pinada depende de
@@ -467,32 +465,35 @@ espírito do resto do site.
 
 ## Pendências para a ONG
 
-Tudo marcado com `TODO` no código. Com o painel no ar, a diretoria mesma
-resolve diretoria, números, WhatsApp e metas em `/admin`.
+Quase tudo que faltava agora a diretoria resolve sozinha no painel
+(`/admin`): números de impacto, metas, WhatsApp, chave PIX e diretoria.
+Fica de fora do painel:
 
-| onde | o que falta |
+| o que falta | onde entra |
 |---|---|
-| `src/content/membros.ts` | nomes e retratos da diretoria; hoje são seis placeholders "Nome Sobrenome" com moldura listrada |
-| `src/content/site.ts` | os quatro números de impacto (11, 3.197+, 40+, 120+) são estimativas do design |
-| `src/content/site.ts` | número real do WhatsApp, hoje `5563999999999`; ele serve ao botão de parceiro **e** ao envio do formulário de voluntário |
-| `src/content/site.ts` | payload PIX estático (BR Code) do CNPJ, para gerar o QR de verdade |
-| `src/content/site.ts` | crédito do rodapé, hoje "nome do estúdio" |
-| `src/content/projetos.ts` | números das metas em andamento |
-| `src/content/fotos.ts` | `triagem-roupas.jpg` e `criancas-comunidade.jpg` chegaram em 240x320 e ficam moles quando usadas grandes; pedir os originais |
+| payload PIX estático (BR Code) do CNPJ, para gerar o QR de verdade | `AJUDAR.doar.payloadPix` em `src/content/site.ts` |
+| crédito do rodapé, hoje "nome do estúdio" | `src/components/sections/Footer.tsx` |
+| originais de `triagem-roupas.jpg` e `criancas-comunidade.jpg`, que chegaram em 240x320 | `public/assets/fotos/` |
+| domínio próprio | Cloudflare Pages → Custom domains, e o endereço nos quatro arquivos citados em Deploy |
 
 ---
 
-## Fases
+## Como foi construído
 
-1. **Base** — tokens, fontes self-hosted, conteúdo extraído dos sources e
+1. **Base**: tokens, fontes self-hosted, conteúdo extraído dos protótipos e
    layout estático de todas as seções.
-2. **Navegação** — header mobile, menu em portal com scroll lock, índice
+2. **Navegação**: header mobile, menu em portal com scroll lock, índice
    lateral, botão Doar flutuante, ScrollTo e Lenis.
-3. **Preloader** — coração desenhando, escrita à mão, cortina e nascimento do
+3. **Preloader**: coração desenhando, escrita à mão, cortina e nascimento do
    fio. Roda a cada carregamento da página.
-4. **O fio** — desenho com scrub em todas as seções, continuidade entre elas,
+4. **O fio**: desenho com scrub em todas as seções, continuidade entre elas,
    o coração fechando, a linha do tempo pinada e a barra de progresso.
-5. **Motions de seção** — SplitText, contadores, máscaras, parallax,
+5. **Motions de seção**: SplitText, contadores, máscaras, parallax,
    carrossel, filtro de projetos.
-6. **Acabamento** — WebP responsivo, revisão do bundle, reduced motion, OG,
+6. **Acabamento**: WebP responsivo, revisão do bundle, reduced motion, OG,
    favicon, acessibilidade e Lighthouse.
+7. **Backend e painel**: API em Pages Functions, banco D1 com migrations,
+   painel da diretoria com textos, cadastros, fotos, voluntários, usuários,
+   auditoria e trava de edição simultânea.
+8. **Qualidade**: requisitos, 341 testes em caixa branca, cinza e preta, CI
+   no GitHub Actions e documentação em `docs/`.

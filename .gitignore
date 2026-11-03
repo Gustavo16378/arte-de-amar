@@ -9,8 +9,6 @@ npm-debug.log*
 public/assets/grao.png
 public/assets/fotos/gerado/
 
-# uso local com Claude Code
-CLAUDE.md
 
 # segredos e banco local do wrangler
 .dev.vars
