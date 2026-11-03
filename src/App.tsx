@@ -12,6 +12,10 @@ import { Atuacao } from './components/sections/Atuacao'
 import { Projetos } from './components/sections/Projetos'
 import { ComoAjudar } from './components/sections/ComoAjudar'
 import { Footer } from './components/sections/Footer'
+import { MARCOS } from './content/marcos'
+import { MEMBROS } from './content/membros'
+import { PROJETOS } from './content/projetos'
+import { NUMEROS } from './content/site'
 
 /**
  * A página inteira: preloader, navegação, o fio e o motion de cada seção.
@@ -38,12 +42,13 @@ export default function App() {
 
       <main>
         <Hero liberado={heroLiberado} />
-        <Numeros />
+        {/* seção que a diretoria esvaziou no painel (tudo oculto) sai da página */}
+        {NUMEROS.length > 0 && <Numeros />}
         <QuemSomos />
-        <Historia />
-        <Diretoria />
+        {MARCOS.length > 0 && <Historia />}
+        {MEMBROS.length > 0 && <Diretoria />}
         <Atuacao />
-        <Projetos />
+        {PROJETOS.length > 0 && <Projetos />}
         <ComoAjudar />
       </main>
 

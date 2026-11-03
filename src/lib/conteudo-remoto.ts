@@ -50,10 +50,7 @@ function valido(d: unknown): d is Remoto {
     Array.isArray(r.marcos) &&
     Array.isArray(r.membros) &&
     Array.isArray(r.numeros) &&
-    typeof r.config === 'object' &&
-    // uma lista vazia por engano não pode apagar a seção inteira
-    r.marcos.length > 0 &&
-    r.numeros.length > 0
+    typeof r.config === 'object'
   )
 }
 

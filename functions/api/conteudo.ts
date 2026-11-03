@@ -7,4 +7,5 @@ import type { Funcao } from '../_lib/tipos'
  * Tudo que o site mostra e a diretoria edita, numa ida só ao banco.
  */
 export const onRequestGet: Funcao = ({ env }) =>
-  tratar(async () => json(await conteudoPublico(env), 200, { 'Cache-Control': 'public, max-age=30' }))
+  // sem cache: o que a diretoria salva no painel aparece no próximo carregamento
+  tratar(async () => json(await conteudoPublico(env)))
