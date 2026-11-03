@@ -1,9 +1,6 @@
 /**
- * Diretoria. Copiado de MEMBROS (desktop/source.html).
- *
- * TODO a ONG ainda não mandou os nomes nem os retratos.
- * Manter o placeholder "Nome Sobrenome" e a moldura listrada até lá:
- * trocar `nome` e preencher `foto` com o caminho do retrato em /assets/fotos/.
+ * Diretoria. Conteúdo de reserva: o que vale no ar é o que a diretoria
+ * cadastra no painel (/admin), vindo do banco (migrations/0003_diretoria.sql).
  *
  * `coluna` e `recuo` são os valores do mural de 12 colunas do desktop.
  * `blob` é o índice da máscara orgânica em BLOBS (0 a 4).
@@ -21,10 +18,8 @@ export type Membro = {
 }
 
 export const MEMBROS: Membro[] = [
-  { nome: 'Nome Sobrenome', cargo: 'Presidente', coluna: '1 / 4', recuo: '0', blob: 0, foto: null },
-  { nome: 'Nome Sobrenome', cargo: 'Vice-presidente', coluna: '5 / 8', recuo: '80px', blob: 1, foto: null },
-  { nome: 'Nome Sobrenome', cargo: 'Tesoureira', coluna: '9 / 12', recuo: '24px', blob: 2, foto: null },
-  { nome: 'Nome Sobrenome', cargo: 'Secretária', coluna: '2 / 5', recuo: '-40px', blob: 3, foto: null },
-  { nome: 'Nome Sobrenome', cargo: 'Diretora de projetos', coluna: '6 / 9', recuo: '10px', blob: 4, foto: null },
-  { nome: 'Nome Sobrenome', cargo: 'Conselho fiscal', coluna: '10 / 13', recuo: '64px', blob: 0, foto: null },
+  { nome: 'Aline Milani', cargo: 'Presidente', coluna: '1 / 4', recuo: '0', blob: 0, foto: { src: '/assets/fotos/diretoria-aline-milani.jpg', alt: 'Aline Milani, presidente da Arte de Amar', largura: 960, altura: 1200 } },
+  { nome: 'Larissa Lima', cargo: 'Vice-presidente', coluna: '5 / 8', recuo: '80px', blob: 1, foto: { src: '/assets/fotos/diretoria-larissa-lima.jpg', alt: 'Larissa Lima, vice-presidente da Arte de Amar', largura: 960, altura: 1200 } },
+  { nome: 'Julia Belga', cargo: 'Tesoureira', coluna: '9 / 12', recuo: '24px', blob: 2, foto: { src: '/assets/fotos/diretoria-julia-belga.jpg', alt: 'Julia Belga, tesoureira da Arte de Amar', largura: 960, altura: 1200 } },
+  { nome: 'Dayane Carvalho', cargo: 'Secretária', coluna: '2 / 5', recuo: '-40px', blob: 3, foto: { src: '/assets/fotos/diretoria-dayane-carvalho.jpg', alt: 'Dayane Carvalho, secretária da Arte de Amar', largura: 960, altura: 1200 } },
 ]
