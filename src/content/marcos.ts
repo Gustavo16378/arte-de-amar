@@ -1,9 +1,9 @@
 import { FOTOS, type Foto } from './fotos'
 
 /**
- * Linha do tempo. Copiado de MARCOS (desktop/source.html) e do objeto marcos
- * do mobile/source.html, que traz textos mais curtos e o object-position de
- * cada foto.
+ * Linha do tempo. Conteúdo de reserva: o que vale no ar é o que a diretoria
+ * cadastra no painel. Textos do protótipo aprovado, com as versões curtas do
+ * mobile e o enquadramento (object-position) de cada foto.
  *
  * O desktop mostra os sete marcos na timeline pinada.
  * O mobile mostra os seis primeiros, alternando dois layouts:

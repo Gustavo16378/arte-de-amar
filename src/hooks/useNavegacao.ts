@@ -17,7 +17,7 @@ type Estado = {
  * por estado do React: ele muda a cada quadro e não vale um render. O resto
  * são chaves que viram poucas vezes na página inteira.
  *
- * As regras de visibilidade são as mesmas do source do desktop.
+ * As regras de visibilidade são as mesmas do protótipo do desktop.
  */
 export function useNavegacao(preenchimento: RefObject<HTMLElement>) {
   const [estado, setEstado] = useState<Estado>({

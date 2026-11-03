@@ -39,8 +39,8 @@ export const CORACAO_TRACOS: TracoCoracao[] = [
 ]
 
 /**
- * Fatia do scrub em que cada traço se desenha, na coreografia do desktop
- * source (segmentos de [data-heart-big]). Usar na Fase 4.
+ * Fatia do scrub em que cada traço se desenha, na coreografia do protótipo
+ * do desktop.
  */
 export const CORACAO_SEGMENTOS: [number, number][] = [
   [0, 0.5],
@@ -60,7 +60,7 @@ export const HEART_MAIN =
   'C554 87 582 358 582 358 C582 358 565 258 460 260 C354 261 306 391 306 391 C306 391 259 261 153 260 C47 258 30 358 30 358 C30 358 59 87 306 260 M30 366 C30 366 64 594 306 655 C306 655 547 594 582 366 C582 366 420 559 306 583 C306 583 168 562 30 366'
 
 /**
- * O coração do preloader, na forma que os dois source.html desenham: os dois
+ * O coração do preloader, na forma que os dois protótipos desenham: os dois
  * lóbulos num traço só, partindo e voltando à fenda, depois a base em V e
  * por fim as duas figuras.
  *

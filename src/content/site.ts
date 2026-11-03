@@ -21,7 +21,7 @@ export const SITE = {
   pix: '40.019.106/0001-51',
   instagram: '@ongartedeamar',
   instagramUrl: 'https://instagram.com/ongartedeamar',
-  // TODO número real da ONG, confirmar com a diretoria
+  // número de exemplo: o real é configurado pela diretoria no painel
   whatsappNumero: '5563999999999',
   whatsapp: 'https://wa.me/5563999999999',
   titulo: 'Arte de Amar · ONG em Palmas, Tocantins',
@@ -52,7 +52,7 @@ export const HERO = {
 
 /**
  * Números de impacto.
- * TODO confirmar com a ONG: os quatro valores são estimativas do design.
+ * Valores de reserva, estimados no design; os reais vêm do painel.
  */
 export type Numero = {
   valor: number
@@ -170,7 +170,7 @@ export const AJUDAR = {
     botaoCopiado: 'Copiada',
     qrLegenda: 'Cada real vira mochila, cesta e transporte. Contas abertas a cada campanha.',
     qrLegendaDesktop: 'aponte a câmera do seu banco',
-    // TODO payload PIX estático (BR Code) do CNPJ, para gerar o QR de verdade
+    // payload PIX estático (BR Code) do CNPJ, quando a ONG enviar: gera o QR de verdade
     payloadPix: null,
   },
   voluntario: {

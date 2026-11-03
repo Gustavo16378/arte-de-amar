@@ -11,8 +11,7 @@ import { SITE } from '../content/site'
  * assinatura do site, e eles querem que ele apareça sempre.
  *
  * O `?nopre` na URL pula a abertura. Serve para conferir o resto da página
- * sem esperar quatro segundos a cada recarga, e é a mesma saída que o
- * source.html de referência tinha.
+ * sem esperar quatro segundos a cada recarga, como no protótipo aprovado.
  */
 function devePular() {
   if (typeof window === 'undefined') return true

@@ -72,7 +72,7 @@ export const FOTOS = {
     largura: 1280,
     altura: 720,
   },
-  // TODO as duas abaixo chegaram em 240x320 e ficam moles quando usadas
+  // as duas abaixo chegaram em 240x320 e ficam moles quando usadas
   // grandes. Pedir os originais à ONG.
   triagemRoupas: {
     src: '/assets/fotos/triagem-roupas.jpg',

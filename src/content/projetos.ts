@@ -1,12 +1,12 @@
 import { FOTOS, type Foto } from './fotos'
 
 /**
- * Projetos e campanhas. Copiado de PROJ (desktop/source.html), com os textos
- * curtos do mobile/source.html onde eles existem.
+ * Projetos e campanhas. Conteúdo de reserva: o que vale no ar é o que a
+ * diretoria cadastra no painel. Textos do protótipo aprovado, com as versões
+ * curtas do mobile onde elas existem.
  *
  * Os dois primeiros têm `meta` [feito, total, unidade] e ganham a barra de
  * progresso feita com o fio.
- * TODO confirmar com a ONG os números das metas em andamento.
  */
 
 export type Projeto = {

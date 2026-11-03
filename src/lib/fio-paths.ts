@@ -14,9 +14,9 @@
  *   FIO_MOBILE   = FIO_M da prancha do fio
  *
  * Por que o mobile vem da prancha e não do FIO.m do desktop: o mobile é a
- * versão principal e o seu source desenha o fio a 20px da borda de 390px,
+ * versão principal e o seu protótipo desenha o fio a 20px da borda de 390px,
  * que é x = 5.1%. O FIO_M da prancha usa x = 5; o FIO.m do desktop usa x = 8
- * (31px), longe demais da borda. O FIO.m fica registrado abaixo para consulta.
+ * (31px), longe demais da borda.
  */
 
 export type SecaoFio =
@@ -62,21 +62,6 @@ export const FIO_MOBILE: Record<SecaoFio, string> = {
   atuacao: 'M5 0 C5 30 13 40 13 50 C13 60 5 70 5 100',
   projetos: 'M5 0 C5 14 19 16 19 26 C19 36 12 38 12 48 C12 58 19 60 19 70 C19 80 5 84 5 100',
   ajudar: 'M5 0 C5 9 50 4 50 13.5',
-}
-
-/**
- * FIO.m do desktop/source.html, guardado para comparação.
- * Não usar: coloca o fio a 31px da borda no mobile, e o design manda 20px.
- */
-export const FIO_MOBILE_DESKTOP_SOURCE: Record<SecaoFio, string> = {
-  hero: 'M50 0 C50 14 12 14 8 30 C4 46 10 70 8 100',
-  numeros: 'M8 0 C8 30 12 50 6 70 C3 84 8 92 8 100',
-  quem: 'M8 0 C8 24 4 50 9 74 C11 88 8 94 8 100',
-  historia: 'M8 0 C8 30 7 60 8 100',
-  diretoria: 'M8 0 C8 26 5 52 9 76 C11 90 8 96 8 100',
-  atuacao: 'M8 0 C8 30 6 60 8 100',
-  projetos: 'M8 0 C8 24 5 50 8 74 C10 90 8 96 8 100',
-  ajudar: 'M8 0 C8 6 50 6 50 12',
 }
 
 /** Espessura do traço, em px reais graças ao non-scaling-stroke. */

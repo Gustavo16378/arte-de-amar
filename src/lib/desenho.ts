@@ -24,7 +24,7 @@ import { gsap } from './gsap'
  *   longo do path, porque um trecho íngreme tem muito mais comprimento de
  *   tela do que de viewBox. É isso que fazia a linha andar, parar e pular.
  *
- * A saída é a mesma que os source.html de referência usam: o espaço do SVG é
+ * A saída é a mesma que os protótipos aprovados usam: o espaço do SVG é
  * pixels reais. O viewBox recebe a caixa da seção e as coordenadas do path
  * são convertidas de porcentagem para pixel. Com escala 1:1 as duas medidas
  * de comprimento coincidem, o traço não deforma sem precisar de

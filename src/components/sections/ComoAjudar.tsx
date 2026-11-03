@@ -12,7 +12,7 @@ import { enviarVoluntario } from '../../lib/conteudo-remoto'
 
 /**
  * Como ajudar. O fio chega ao centro, curva e termina na fenda superior do
- * coração, que se fecha atrás do título (Fase 4).
+ * coração, que se fecha atrás do título.
  *
  * Três blocos: PIX, formulário de voluntário e contato de parceiro. No mobile
  * eles se empilham separados por linhas finas; no desktop viram três colunas.
@@ -170,7 +170,7 @@ export function ComoAjudar() {
 
           <div className="ajudar__qr">
             <div className="ajudar__qr-quadro">
-              {/* TODO gerar o QR de verdade quando tivermos o payload PIX do CNPJ */}
+              {/* QR ilustrativo até a ONG enviar o payload PIX do CNPJ (ver AJUDAR.doar.payloadPix) */}
               <div className="ajudar__qr-falso" aria-hidden="true">
                 <span>
                   QR Code
