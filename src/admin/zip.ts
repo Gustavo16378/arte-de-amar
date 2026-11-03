@@ -70,7 +70,7 @@ export function montarZip(arquivos: { nome: string; dados: Uint8Array }[]) {
 export function nomeDeArquivo(texto: string) {
   return texto
     .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
+    .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '')
