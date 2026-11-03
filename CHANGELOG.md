@@ -25,7 +25,7 @@ Primeira versão com backend: a diretoria passa a cuidar do site sozinha.
 - Aviso de espaço do banco a partir de 70%.
 - Proteção contra duas pessoas editando o mesmo item ao mesmo tempo.
 - Diretoria real com retratos.
-- 340 testes (unitários, banco, API, E2E e acessibilidade) rodando no CI.
+- 341 testes (unitários, banco, API, E2E e acessibilidade) rodando no CI.
 - Documentação: requisitos, arquitetura, API, banco, testes, manual do
   painel e guia de contribuição.
 

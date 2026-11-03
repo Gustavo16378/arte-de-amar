@@ -7,12 +7,12 @@ Como o sistema é verificado, o que cada suíte cobre e como cada requisito de
 
 | suíte | técnica | o que roda | testes |
 |---|---|---|---|
-| Unitários | caixa branca | bibliotecas da API e do site, isoladas | 107 |
+| Unitários | caixa branca | bibliotecas da API e do site, isoladas | 108 |
 | Banco | caixa branca | migrations aplicadas do zero num SQLite em memória | 34 |
 | API | caixa preta e caixa cinza | a API real (wrangler, runtime da Cloudflare) com um D1 isolado | 155 |
 | E2E | caixa preta | site e painel num navegador, no computador (1440px) e no celular (390px) | 44 |
 | Acessibilidade | caixa preta | axe-core, regras WCAG 2 A e AA, dentro do E2E | incluída no E2E |
-| **Total** | | | **340** |
+| **Total** | | | **341** |
 
 Cobertura de linhas dos unitários: 89% nas bibliotecas (`functions/_lib`,
 `src/lib`, zip do painel). O que fica de fora do unitário (`auditoria.ts` e
@@ -73,7 +73,7 @@ o relatório do Playwright, com trace e screenshot do erro, fica salvo como arte
 | `http.test.ts` | leitura de JSON (tipo, tamanho, formato), formato único de erro, erro interno sem vazar detalhe, ids de rota |
 | `textos.test.ts` | chaves únicas, texto original dentro do limite, aplicação no site sem mexer no catálogo de fotos |
 | `conteudo-remoto.test.ts` | troca do conteúdo no lugar, layout derivado da ordem, reserva com API em erro, fora do ar, lenta (2,5 s) ou fora do contrato |
-| `utilitarios.test.ts` | zip validado pelo Python (CRC de cada arquivo), nomes de arquivo, senha temporária (formato, sem caracteres ambíguos, sem repetição) |
+| `utilitarios.test.ts` | zip relido byte a byte e conferido com o CRC-32 do zlib (e pelo Python, quando instalado), nomes de arquivo, senha temporária (formato, sem caracteres ambíguos, sem repetição) |
 
 ### Banco (`tests/db/schema.test.ts`)
 
@@ -161,6 +161,7 @@ Problemas reais achados ao escrever esta suíte, todos corrigidos:
 | Dicas, horários e botões de apagar do painel abaixo do contraste AA. | `src/admin/admin.css` | tons mais escuros só no painel, o design do site intacto |
 | O mural da diretoria, que rola de lado no celular, não era alcançável pelo teclado. | `Diretoria.tsx` | `tabIndex` e rótulo na lista |
 | Com todos os números ocultos, o site voltava a mostrar todos (achado no uso, virou teste de regressão). | `src/lib/conteudo-remoto.ts` | lista vazia é resposta válida e a seção sai da página |
+| O teste do zip dependia do Python e falhava no Windows sem ele. | `tests/unit/utilitarios.test.ts` | leitura do zip em TypeScript conferida com o CRC-32 do zlib; o Python vira conferência extra opcional |
 
 ## Fora do escopo, por enquanto
 

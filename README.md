@@ -14,7 +14,7 @@ axe-core nos testes. Custo de operação zero.
 |---|---|
 | [docs/requisitos.md](docs/requisitos.md) | atores, restrições, requisitos funcionais e não funcionais |
 | [docs/arquitetura.md](docs/arquitetura.md) | camadas, fluxos, edição simultânea e decisões |
-| [docs/testes.md](docs/testes.md) | 340 testes em caixa branca, cinza e preta, rastreabilidade e o que eles encontraram |
+| [docs/testes.md](docs/testes.md) | 341 testes em caixa branca, cinza e preta, rastreabilidade e o que eles encontraram |
 | [docs/api.md](docs/api.md) | referência das rotas, com exemplos de pedido e resposta |
 | [docs/banco.md](docs/banco.md) | modelo do banco, diagrama ER e migrations |
 | [docs/manual-do-painel.md](docs/manual-do-painel.md) | como a diretoria usa o painel, em linguagem simples |
@@ -53,7 +53,7 @@ Se isso passar a importar, dá para rolar até a âncora quando a cortina sobe.
 
 ```bash
 npm run build      # a API e os E2E servem o dist/
-npm test           # unitários + banco + API (296)
+npm test           # unitários + banco + API (297)
 npm run test:e2e   # E2E e acessibilidade no computador e no celular (44)
 ```
 
