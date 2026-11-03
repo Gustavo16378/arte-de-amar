@@ -2,6 +2,8 @@
  * Páginas do painel que não são lista: voluntários e configurações.
  */
 import { useEffect, useState } from 'react'
+import { QrPix } from '../components/QrPix'
+import { pixDaOng } from '../lib/pix'
 import { api, type Voluntario } from './api'
 import { BotaoPerigoso, Carregando, useAvisar } from './ui'
 
@@ -275,6 +277,15 @@ export function PaginaConfiguracoes() {
             <input value={config.pix} onChange={(e) => setConfig({ ...config, pix: e.target.value })} />
             <span className="campo__dica">Aparece em “Como ajudar”, com o botão de copiar.</span>
           </label>
+          {config.pix.trim().length >= 5 && (
+            <div className="previa-pix">
+              <QrPix payload={pixDaOng(config.pix)} rotulo="Prévia do QR Code do PIX" />
+              <p className="campo__dica">
+                Prévia do QR Code que vai para o site, gerado a partir da chave. Depois de salvar, escaneie no app do
+                banco e confira se aparece o nome da conta da ONG antes de divulgar.
+              </p>
+            </div>
+          )}
           <div className="envio__acoes">
             <button type="submit" className="btn btn--primario" disabled={salvando}>
               {salvando ? 'Salvando…' : 'Salvar contatos'}
