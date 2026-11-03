@@ -61,7 +61,8 @@ const pasta = mkdtempSync(path.join(tmpdir(), 'ada-'))
 const arquivo = path.join(pasta, 'admin.sql')
 writeFileSync(arquivo, sql)
 try {
-  execFileSync('npx', ['wrangler', 'd1', 'execute', 'arte-de-amar', alvo, '--file', arquivo], { stdio: 'inherit' })
+  // no Windows o npx é um .cmd e o execFileSync não encontra; chama o wrangler pelo Node
+  execFileSync(process.execPath, ['node_modules/wrangler/bin/wrangler.js', 'd1', 'execute', 'arte-de-amar', alvo, '--file', arquivo], { stdio: 'inherit' })
   console.log(`Usuário ${email} pronto (${alvo.slice(2)}).`)
 } finally {
   rmSync(pasta, { recursive: true, force: true })
