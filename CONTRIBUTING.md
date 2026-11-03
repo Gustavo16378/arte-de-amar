@@ -73,6 +73,9 @@ requisito que ele verifica (`RF11 · …`); requisito novo entra em
 Mudou o formato de uma resposta da API? Atualize o contrato em
 [`tests/contratos.ts`](tests/contratos.ts) e a [referência](docs/api.md).
 
+Mudou algum arquivo de `docs/`? Rode `npm run docs:pdf` e faça commit dos
+PDFs de `docs/pdf/` junto, para as duas versões não divergirem.
+
 ## Banco
 
 Mudança de esquema é sempre uma migration nova, com o próximo número

@@ -21,6 +21,12 @@ axe-core nos testes. Custo de operação zero.
 | [CONTRIBUTING.md](CONTRIBUTING.md) | ambiente, fluxo de branches, convenção de commits e testes |
 | [CHANGELOG.md](CHANGELOG.md) | o que mudou em cada versão |
 
+Toda a documentação também está em PDF, com capa, sumário e numeração, em
+[docs/pdf/](docs/pdf). A [documentação completa](docs/pdf/documentacao-completa.pdf)
+junta tudo num arquivo só; o [manual do painel](docs/pdf/manual-do-painel.pdf)
+é o que vai para a diretoria. Para gerar de novo depois de mudar os textos:
+`npm run docs:pdf`.
+
 ---
 
 ## Rodar
