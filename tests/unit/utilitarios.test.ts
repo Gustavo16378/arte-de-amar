@@ -2,14 +2,18 @@
  * Caixa branca · zip do backup de fotos, senha temporária e nomes de arquivo.
  * RF12 (baixar todas), RF17 (senha temporária).
  */
-import { execFileSync } from 'node:child_process'
+import { execFileSync, spawnSync } from 'node:child_process'
 import { mkdtempSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
+import { crc32 } from 'node:zlib'
 import { describe, expect, it } from 'vitest'
 import { senhaTemporaria } from '../../functions/_lib/senha'
 import { nomeDeArquivo as nomeApi } from '../../functions/api/midias/[id]'
 import { montarZip, nomeDeArquivo } from '../../src/admin/zip'
+
+// no Windows, "python3" costuma ser só o atalho da Microsoft Store
+const temPython = spawnSync('python3', ['-c', 'print(1)']).stdout?.toString().trim() === '1'
 
 describe('RF12 · zip do "Baixar todas"', () => {
   const arquivos = [
@@ -18,25 +22,59 @@ describe('RF12 · zip do "Baixar todas"', () => {
     { nome: 'vazio.jpg', dados: new Uint8Array() },
   ]
 
-  it('gera um zip válido, que o Python abre e confere o CRC de cada arquivo', async () => {
+  /**
+   * Lê o zip de volta byte a byte, pelo diretório central (como os
+   * descompactadores fazem), e confere cada arquivo com o CRC-32 do zlib do
+   * Node: uma implementação independente da nossa. Sem programa externo, roda
+   * igual no Windows, no Linux e no CI.
+   */
+  function lerZip(b: Uint8Array) {
+    const v = new DataView(b.buffer, b.byteOffset, b.byteLength)
+    const dec = new TextDecoder()
+    const fim = b.length - 22
+    expect(v.getUint32(fim, true)).toBe(0x06054b50)
+    const total = v.getUint16(fim + 10, true)
+    let p = v.getUint32(fim + 16, true)
+    const arquivos: { nome: string; dados: Uint8Array; crc: number }[] = []
+    for (let i = 0; i < total; i++) {
+      expect(v.getUint32(p, true)).toBe(0x02014b50)
+      const crc = v.getUint32(p + 16, true)
+      const tamanho = v.getUint32(p + 24, true)
+      const nomeLen = v.getUint16(p + 28, true)
+      const local = v.getUint32(p + 42, true)
+      const nome = dec.decode(b.subarray(p + 46, p + 46 + nomeLen))
+      expect(v.getUint32(local, true)).toBe(0x04034b50)
+      expect(v.getUint16(local + 6, true) & 0x0800).toBe(0x0800) // nome em UTF-8
+      const inicio = local + 30 + v.getUint16(local + 26, true) + v.getUint16(local + 28, true)
+      arquivos.push({ nome, crc, dados: b.subarray(inicio, inicio + tamanho) })
+      p += 46 + nomeLen
+    }
+    return arquivos
+  }
+
+  it('gera um zip válido: estrutura, nomes em UTF-8 e CRC de cada arquivo', async () => {
     const blob = montarZip(arquivos)
     expect(blob.type).toBe('application/zip')
-    const pasta = mkdtempSync(path.join(tmpdir(), 'zip-'))
-    const caminho = path.join(pasta, 't.zip')
-    writeFileSync(caminho, new Uint8Array(await blob.arrayBuffer()))
-    const saida = execFileSync('python3', [
-      '-c',
-      'import zipfile,sys,json;z=zipfile.ZipFile(sys.argv[1]);print(json.dumps([z.testzip(),[(i.filename,i.file_size) for i in z.infolist()],z.read("ola.txt").decode()]))',
-      caminho,
-    ]).toString()
-    const [erro, lista, texto] = JSON.parse(saida)
-    expect(erro).toBeNull()
-    expect(lista).toEqual([
+    const lidos = lerZip(new Uint8Array(await blob.arrayBuffer()))
+    expect(lidos.map((a) => [a.nome, a.dados.length])).toEqual([
       ['ola.txt', 11], // 'olá, mundo' em UTF-8
       ['ação-de-páscoa.webp', 7],
       ['vazio.jpg', 0],
     ])
-    expect(texto).toBe('olá, mundo')
+    for (const a of lidos) expect(a.crc, a.nome).toBe(crc32(a.dados))
+    expect(new TextDecoder().decode(lidos[0].dados)).toBe('olá, mundo')
+  })
+
+  it.skipIf(!temPython)('o Python também abre o zip (conferência extra, quando há Python na máquina)', async () => {
+    const pasta = mkdtempSync(path.join(tmpdir(), 'zip-'))
+    const caminho = path.join(pasta, 't.zip')
+    writeFileSync(caminho, new Uint8Array(await montarZip(arquivos).arrayBuffer()))
+    const saida = execFileSync('python3', [
+      '-c',
+      'import zipfile,sys;print(zipfile.ZipFile(sys.argv[1]).testzip())',
+      caminho,
+    ]).toString()
+    expect(saida.trim()).toBe('None')
   })
 
   it('zip vazio também é válido', async () => {
