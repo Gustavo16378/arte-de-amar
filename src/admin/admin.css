@@ -14,8 +14,8 @@
   --esmeralda: #1FA86B;
   --menta: #6FE3B0;
   --neutro: #D9D2C3;
-  --neutro-fechado: #8E8676;
-  --terracota: #C2643A;
+  --neutro-fechado: #6B6457;  /* mais escuro que no site: contraste AA sobre o papel */
+  --terracota: #A2481F;  /* contraste AA em botão de texto */
   --font-display: 'Sentient', Georgia, 'Times New Roman', serif;
   --font-body: 'Switzer', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --raio: 14px;
@@ -135,7 +135,8 @@ a { color: inherit; }
   color: var(--tinta-suave);
   white-space: nowrap;
 }
-.segmentos__item[aria-checked='true'] { background: #fff; color: var(--verde-profundo); box-shadow: var(--sombra); }
+.segmentos__item[aria-checked='true'],
+.segmentos__item[aria-selected='true'] { background: #fff; color: var(--verde-profundo); box-shadow: var(--sombra); }
 
 .erro {
   margin: 0;

@@ -98,7 +98,8 @@ export function Diretoria() {
           <h2 className="titulo-secao diretoria__titulo">{comEnfase(DIRETORIA.titulo)}</h2>
         </div>
 
-        <ul className="diretoria__carrossel sem-barra">
+        {/* no celular o mural rola de lado: tabIndex deixa rolar pelo teclado */}
+        <ul className="diretoria__carrossel sem-barra" tabIndex={0} aria-label="Pessoas da diretoria">
           {MEMBROS.map((m, i) => (
             <li
               key={`${m.cargo}-${i}`}

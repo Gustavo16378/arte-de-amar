@@ -30,7 +30,7 @@ export const onRequestGet: Funcao = ({ env }) =>
               (SELECT COUNT(*) FROM projetos WHERE foto_id = m.id)
             + (SELECT COUNT(*) FROM marcos WHERE foto_id = m.id)
             + (SELECT COUNT(*) FROM membros WHERE foto_id = m.id)
-            + (SELECT COUNT(*) FROM textos WHERE valor = CAST(m.id AS TEXT) AND chave LIKE '%.foto') AS usos
+            + (SELECT COUNT(*) FROM textos WHERE chave LIKE '%.foto' AND CAST(valor AS INTEGER) = m.id) AS usos
          FROM midias m ORDER BY m.id DESC`,
     ).all<{ id: number; caminho: string | null } & Record<string, unknown>>()
 

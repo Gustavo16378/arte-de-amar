@@ -87,7 +87,6 @@ export function PaginaTextos() {
             key={s}
             type="button"
             role="tab"
-            aria-checked={s === secao}
             aria-selected={s === secao}
             className="segmentos__item"
             onClick={() => setSecao(s)}

@@ -20,7 +20,7 @@ export const onRequestGet: Funcao = ({ env, request }) =>
       `SELECT id, usuario_id, usuario_nome, acao, area, alvo, detalhe, criado_em
          FROM auditoria
         WHERE criado_em >= ? AND criado_em < ? AND (?3 IS NULL OR usuario_id = ?3)
-        ORDER BY id DESC LIMIT 500`,
+        ORDER BY id DESC LIMIT 2000`,
     )
       .bind(de, ate, usuario)
       .all()

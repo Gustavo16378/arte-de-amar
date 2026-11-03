@@ -28,7 +28,7 @@ export const onRequestDelete: Funcao<'id'> = ({ params, env, data }) =>
     const uso = await env.DB.prepare(
       `SELECT (SELECT COUNT(*) FROM projetos WHERE foto_id = ?1)
             + (SELECT COUNT(*) FROM marcos WHERE foto_id = ?1)
-            + (SELECT COUNT(*) FROM textos WHERE valor = CAST(?1 AS TEXT) AND chave LIKE '%.foto') AS n`,
+            + (SELECT COUNT(*) FROM textos WHERE chave LIKE '%.foto' AND CAST(valor AS INTEGER) = ?1) AS n`,
     )
       .bind(id)
       .first<{ n: number }>()

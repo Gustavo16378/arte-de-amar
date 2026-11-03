@@ -1,7 +1,20 @@
 # Arte de Amar · site da ONG
 
-Site one page da OSC Arte de Amar, de Palmas, Tocantins. Projeto autoral, sem
-template.
+[![testes](https://github.com/Gustavo16378/arte-de-amar/actions/workflows/testes.yml/badge.svg)](https://github.com/Gustavo16378/arte-de-amar/actions/workflows/testes.yml)
+
+Site one page da OSC Arte de Amar, de Palmas, Tocantins, com painel para a
+diretoria cuidar do conteúdo sozinha. Projeto autoral, sem template, no ar
+em https://arte-de-amar-site.pages.dev/.
+
+**Stack:** React, TypeScript, Vite, Tailwind e GSAP no front; Cloudflare
+Pages Functions (TypeScript) e D1 (SQLite) no back; Vitest, Playwright e
+axe-core nos testes. Custo de operação zero.
+
+| documento | conteúdo |
+|---|---|
+| [docs/requisitos.md](docs/requisitos.md) | atores, restrições, requisitos funcionais e não funcionais |
+| [docs/arquitetura.md](docs/arquitetura.md) | camadas, fluxos, edição simultânea e decisões |
+| [docs/testes.md](docs/testes.md) | 340 testes em caixa branca, cinza e preta, rastreabilidade e o que eles encontraram |
 
 ---
 
@@ -28,6 +41,21 @@ resto da página sem esperar os quatro segundos a cada recarga.
 Um detalhe em aberto: quem chega direto num âncora, como `/#como-ajudar`,
 termina no topo da página, porque o preloader trava a rolagem enquanto roda.
 Se isso passar a importar, dá para rolar até a âncora quando a cortina sobe.
+
+---
+
+## Testes
+
+```bash
+npm run build      # a API e os E2E servem o dist/
+npm test           # unitários + banco + API (296)
+npm run test:e2e   # E2E e acessibilidade no computador e no celular (44)
+```
+
+Os testes de API e E2E sobem a API de verdade (`wrangler pages dev`) com um
+D1 novo e isolado a cada rodada, sem tocar no banco de desenvolvimento nem
+no de produção. O CI roda tudo a cada push. Detalhes em
+[docs/testes.md](docs/testes.md).
 
 ---
 
@@ -275,6 +303,8 @@ functions/
   _lib/         auth, http, entidades e validação, montagem do conteúdo
   api/          as rotas; api/admin/_middleware.ts protege o painel
 migrations/     esquema do D1 e o seed com o conteúdo inicial
+tests/          unit/, db/, api/ (Vitest), e2e/ (Playwright), contratos.ts
+docs/           requisitos, arquitetura e plano de testes
 scripts/
   gerar-imagens.mjs  versões responsivas das fotos, em WebP e JPG
   gerar-grao.mjs     ladrilho da granulação
