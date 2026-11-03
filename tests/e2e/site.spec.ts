@@ -104,3 +104,41 @@ test.describe('site público', () => {
     for (const n of itens) await ctx.put(`/api/admin/numeros/${n.id}`, { data: { visivel: 1 } })
   })
 })
+
+test.describe('PIX', () => {
+  test('RF21 · o QR Code lido pela câmera é o mesmo código do "copia e cola", com a chave da ONG', async ({ page, context }, info) => {
+    await abrirSite(page, '#como-ajudar')
+    const quadro = page.locator('.ajudar__qr-quadro')
+    await quadro.scrollIntoViewIfNeeded()
+    await expect(quadro.locator('svg[role=img]')).toBeVisible()
+
+    const botao = page.locator('.ajudar__copia-e-cola')
+    const payload = (await botao.getAttribute('data-payload')) ?? ''
+    expect(payload).toMatch(/^000201.*br\.gov\.bcb\.pix0114\d{14}.*6304[0-9A-F]{4}$/)
+
+    // lê o QR da tela como um app de banco: screenshot → pixels → decodificador
+    const sharp = (await import('sharp')).default
+    const jsQR = (await import('jsqr')).default
+    const png = await quadro.screenshot()
+    const { data, info: img } = await sharp(png).ensureAlpha().raw().toBuffer({ resolveWithObject: true })
+    const lido = jsQR(new Uint8ClampedArray(data), img.width, img.height)
+    expect(lido?.data).toBe(payload)
+
+    // o copia e cola leva exatamente o mesmo código
+    if (info.project.name === 'computador') {
+      await context.grantPermissions(['clipboard-read', 'clipboard-write'])
+      await botao.click()
+      await expect(botao).toHaveText(/copiado/)
+      expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(payload)
+    }
+  })
+
+  test('RF21 · trocar a chave no painel troca o QR do site', async ({ page, request }) => {
+    const ctx = await api(request)
+    await ctx.put('/api/admin/configuracoes', { data: { pix: 'contato@artedeamar.org' } })
+    await abrirSite(page, '#como-ajudar')
+    const payload = await page.locator('.ajudar__copia-e-cola').getAttribute('data-payload')
+    expect(payload).toContain('0122contato@artedeamar.org')
+    await ctx.put('/api/admin/configuracoes', { data: { pix: '40.019.106/0001-51' } })
+  })
+})
