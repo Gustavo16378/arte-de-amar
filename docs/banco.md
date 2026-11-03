@@ -4,13 +4,16 @@ Cloudflare D1 (SQLite). O esquema nasce das migrations em
 [`migrations/`](../migrations), aplicadas em ordem; nenhuma tabela é criada
 à mão.
 
+## Diagrama entidade-relacionamento
+
+### Conteúdo do site
+
 ```mermaid
 erDiagram
   midias ||--o{ projetos : "foto_id (RESTRICT)"
   midias ||--o{ marcos : "foto_id (RESTRICT)"
   midias |o--o{ membros : "foto_id (SET NULL)"
   midias |o..o{ textos : "valor, nos campos de foto"
-  usuarios |o..o{ auditoria : "usuario_id (sem FK, o registro fica)"
 
   midias {
     int id PK
@@ -54,6 +57,10 @@ erDiagram
     int ordem
     int versao
   }
+  textos {
+    text chave PK "ex.: hero.titulo"
+    text valor
+  }
   numeros {
     int id PK
     int valor
@@ -63,21 +70,18 @@ erDiagram
     int ordem
     int versao
   }
-  textos {
-    text chave PK "ex.: hero.titulo"
-    text valor
-  }
-  configuracoes {
-    text chave PK "whatsapp, pix"
-    text valor
-  }
-  voluntarios {
-    int id PK
-    text nome
-    text whatsapp "só dígitos"
-    text como
-    text status "novo | contatado | arquivado"
-  }
+```
+
+### Painel e operação
+
+`auditoria` guarda o id e o nome de quem fez, sem chave estrangeira: o
+registro continua legível depois que a pessoa sai. `voluntarios`,
+`configuracoes` e `tentativas` não se ligam a outras tabelas.
+
+```mermaid
+erDiagram
+  usuarios |o..o{ auditoria : "usuario_id (sem FK)"
+
   usuarios {
     int id PK
     text nome
@@ -95,6 +99,17 @@ erDiagram
     text area
     text alvo
     text detalhe
+  }
+  voluntarios {
+    int id PK
+    text nome
+    text whatsapp "só dígitos"
+    text como
+    text status "novo | contatado | arquivado"
+  }
+  configuracoes {
+    text chave PK "whatsapp, pix"
+    text valor
   }
   tentativas {
     int id PK
