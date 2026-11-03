@@ -609,3 +609,34 @@ a { color: inherit; }
 }
 .aviso--erro { background: #7a3517; }
 @keyframes subir { from { transform: translateY(8px); opacity: 0; } }
+
+/* ------------------------------------------------------------ textos e espaço */
+.segmentos--rolagem { max-width: 100%; }
+.cartao--largo { max-width: 760px; }
+.campo__rotulo--linha { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.link-pequeno {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-size: 12.5px;
+  color: var(--esmeralda);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.envio__acoes--inicio { justify-content: flex-start; }
+
+.faixa {
+  margin: 0 0 24px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: rgba(224, 138, 91, .14);
+  color: #7a3517;
+  font-size: 14px;
+}
+.faixa--critica { background: #7a3517; color: #fff; }
+.faixa a { font-weight: 500; }
+
+.medidor { height: 10px; border-radius: 10px; background: var(--creme-fundo); overflow: hidden; }
+.medidor span { display: block; height: 100%; border-radius: 10px; background: var(--esmeralda); transition: width .4s; }
+.medidor--atencao span { background: #E08A5B; }
+.medidor--critico span { background: #b5481c; }

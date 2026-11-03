@@ -35,6 +35,7 @@ export const onRequestPost: Funcao = ({ request, env }) =>
     await env.DB.batch([
       env.DB.prepare('INSERT INTO voluntarios (nome, whatsapp, como) VALUES (?, ?, ?)').bind(nome, whatsapp, como),
       env.DB.prepare('INSERT INTO tentativas (chave, ip) VALUES (?, ?)').bind(`voluntario:${ip}`, ip),
+      env.DB.prepare(`DELETE FROM tentativas WHERE criado_em < datetime('now', '-1 day')`),
     ])
 
     return json({ ok: true }, 201)

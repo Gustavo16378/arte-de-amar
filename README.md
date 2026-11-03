@@ -89,9 +89,13 @@ site (/)  ──GET /api/conteudo──▶  Pages Functions  ──▶  D1
 painel (/admin) ──/api/admin/*──▶  (login por cookie)
 ```
 
-**O que a diretoria edita pelo painel:** projetos (com meta, depoimento e
-link de vídeo), linha do tempo, diretoria com retratos, números de impacto,
-fotos, contatos (WhatsApp e PIX) e a própria senha. Também vê quem se
+**O que a diretoria edita pelo painel:** os textos e fotos fixos de cada
+seção (abertura, quem somos, história, onde a gente chega, como ajudar,
+rodapé), projetos (com meta, depoimento e link de vídeo), linha do tempo,
+diretoria com retratos, números de impacto, fotos, contatos (WhatsApp e PIX)
+e a própria senha. A lista de textos editáveis fica em
+[`src/lib/textos.ts`](src/lib/textos.ts), única fonte para o painel, a API e
+o site. Também vê quem se
 inscreveu em "Ser voluntário" e chama a pessoa no WhatsApp com um toque.
 
 **Como o site lê o conteúdo.** [`src/lib/conteudo-remoto.ts`](src/lib/conteudo-remoto.ts)
@@ -111,6 +115,13 @@ cartão mesmo no plano gratuito.
 estiver fora do ar, cai no comportamento antigo: abre o WhatsApp da ONG com
 a mensagem pronta.
 
+**Espaço.** O plano gratuito do D1 aceita 500 MB por banco. Quase todo o
+peso são as fotos enviadas (cerca de 0,3 MB cada); um contato de voluntário
+ocupa menos de 1 KB. Configurações mostra o quanto já foi usado, e o painel
+avisa no topo a partir de 70%. Os registros de tentativa de login e de
+cadastro são apagados sozinhos depois de um dia; contatos de voluntário só
+saem quando a diretoria apaga (um a um ou todos os arquivados de uma vez).
+
 ### Rotas
 
 | método | rota | o que faz |
@@ -125,8 +136,10 @@ a mensagem pronta.
 | PUT | `/api/admin/:entidade/ordem` | grava a nova ordem |
 | GET, POST | `/api/admin/midias` | biblioteca e upload |
 | PUT, DELETE | `/api/admin/midias/:id` | descrição e exclusão |
-| GET, PUT, DELETE | `/api/admin/voluntarios[/:id]` | contatos e status |
+| GET, PUT, DELETE | `/api/admin/voluntarios[/:id]` | contatos e status; DELETE sem id apaga os arquivados |
 | GET, PUT | `/api/admin/configuracoes` | WhatsApp e PIX |
+| GET, PUT | `/api/admin/textos` | textos e fotos fixos das seções |
+| GET | `/api/admin/espaco` | quanto do banco já foi usado |
 | PUT | `/api/admin/senha` | troca a própria senha |
 
 ### Segurança

@@ -3,7 +3,7 @@
  * Fonte: o design aprovado, nas versões desktop e mobile.
  */
 
-import { FOTOS } from './fotos'
+import { FOTOS, type Foto } from './fotos'
 
 /**
  * `whatsappNumero`, `whatsapp` e `pix` podem ser trocados pela diretoria no
@@ -48,7 +48,7 @@ export const HERO = {
   ctaPrimario: 'Quero ajudar',
   ctaSecundario: 'Conhecer a ONG',
   role: 'role',
-} as const
+}
 
 /**
  * Números de impacto.
@@ -68,6 +68,13 @@ export const NUMEROS: Numero[] = [
   { valor: 40, sufixo: '+', label: 'campanhas realizadas', velocidade: 0.05, alinhamento: 'start' },
   { valor: 120, sufixo: '+', label: 'voluntários ativos', velocidade: 0.07, alinhamento: 'center' },
 ]
+
+/*
+ * HERO, QUEM_SOMOS, HISTORIA, ATUACAO, DIRETORIA, PROJETOS_SECAO, AJUDAR e
+ * FOOTER são o texto de reserva. O que a diretoria muda na aba "Textos do
+ * site" do painel sobrescreve estes valores antes do primeiro render (ver
+ * lib/textos.ts). Por isso nenhum deles é `as const`.
+ */
 
 export const QUEM_SOMOS = {
   rotulo: 'Quem somos',
@@ -97,7 +104,7 @@ export const QUEM_SOMOS = {
       longo: 'Amor em ação, transparência, comunidade e alegria.',
     },
   ],
-} as const
+}
 
 export const HISTORIA = {
   rotulo: 'Nossa história',
@@ -108,7 +115,7 @@ export const HISTORIA = {
   origemRotulo: 'A origem do nome',
   origem:
     '"Arte" porque amar bem exige ofício: paciência, repetição, cuidado no detalhe. "De Amar" porque é só isso, no fim. O nome nasceu numa conversa de cozinha, em 2015, e nunca mais saiu.',
-} as const
+}
 
 export const ATUACAO = {
   rotulo: 'Onde a gente chega',
@@ -137,19 +144,19 @@ export const ATUACAO = {
         'Sem sede fixa, com voluntários e parceiros locais. Cada campanha tem meta, prestação de contas aberta e entrega feita em mãos.',
     },
   ],
-} as const
+}
 
 export const DIRETORIA = {
   rotulo: 'Diretoria',
   titulo: 'As pessoas por trás do |coração|.',
   dica: 'arraste →',
-} as const
+}
 
 export const PROJETOS_SECAO = {
   rotulo: 'Projetos e campanhas',
   titulo: 'Nossos |projetos|',
   filtros: ['Todos', 'Em andamento', 'Concluídos'],
-} as const
+}
 
 export const AJUDAR = {
   rotulo: 'Como ajudar',
@@ -189,12 +196,13 @@ export const AJUDAR = {
       'Empresas que caminham com a gente: McDonald’s, Hospital de Amor, Casa Ronald McDonald e Palmas Para a Vida. Sua marca pode apadrinhar uma campanha inteira, doar produtos ou abrir espaço para a arrecadação.',
     botao: 'Falar no WhatsApp',
   },
-} as const
+}
 
 export const FOOTER = {
   frase: 'Desde 2015 espalhando |muito amor|.',
   foto: FOTOS.equipeMural,
   credito: 'site feito à mão por · nome do estúdio',
-} as const
+}
 
-export const FOTO_HERO = FOTOS.heroMenino
+/** cópia, para a troca pelo painel não mexer no catálogo */
+export const FOTO_HERO: Foto = { ...FOTOS.heroMenino }

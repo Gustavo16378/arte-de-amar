@@ -21,6 +21,7 @@ import { MARCOS, MARCOS_MOBILE, type Marco } from '../content/marcos'
 import { MEMBROS, type Membro } from '../content/membros'
 import { PROJETOS, type Projeto } from '../content/projetos'
 import { NUMEROS, SITE, type Numero } from '../content/site'
+import { aplicarTextos } from './textos'
 
 type Remoto = {
   projetos: (Omit<Projeto, 'foto'> & { foto: Foto | null })[]
@@ -28,6 +29,8 @@ type Remoto = {
   membros: { nome: string; cargo: string; foto: Foto | null }[]
   numeros: { valor: number; sufixo: string; label: string }[]
   config: Record<string, string>
+  /** textos e fotos fixos trocados no painel (ver lib/textos.ts) */
+  textos?: Record<string, unknown>
 }
 
 /** os seis lugares do mural desktop, na ordem do design; repete depois do sexto */
@@ -99,6 +102,8 @@ function aplicar(r: Remoto) {
     SITE.whatsapp = `https://wa.me/${whatsapp}`
   }
   if (r.config.pix) SITE.pix = r.config.pix
+
+  if (r.textos && typeof r.textos === 'object') aplicarTextos(r.textos)
 }
 
 export async function carregarConteudo() {

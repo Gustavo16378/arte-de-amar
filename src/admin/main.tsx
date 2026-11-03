@@ -8,14 +8,16 @@ import { api, quandoSessaoExpirar, type Usuario } from './api'
 import { ENTIDADES } from './config'
 import { PaginaFotos } from './Fotos'
 import { PaginaLista } from './Lista'
-import { PaginaConfiguracoes, PaginaVoluntarios } from './Paginas'
+import { AvisoEspaco, PaginaConfiguracoes, PaginaVoluntarios } from './Paginas'
+import { PaginaTextos } from './Textos'
 import { Carregando, Coracao, ProvedorAvisos, useAvisar } from './ui'
 import '../styles/fonts.css'
 import './admin.css'
 
-type Aba = (typeof ENTIDADES)[number]['rota'] | 'fotos' | 'voluntarios' | 'configuracoes'
+type Aba = 'textos' | (typeof ENTIDADES)[number]['rota'] | 'fotos' | 'voluntarios' | 'configuracoes'
 
 const ABAS: { id: Aba; rotulo: string }[] = [
+  { id: 'textos', rotulo: 'Textos do site' },
   ...ENTIDADES.map((e) => ({ id: e.rota, rotulo: e.titulo })),
   { id: 'fotos', rotulo: 'Fotos' },
   { id: 'voluntarios', rotulo: 'Voluntários' },
@@ -24,7 +26,7 @@ const ABAS: { id: Aba; rotulo: string }[] = [
 
 function abaDaUrl(): Aba {
   const h = location.hash.replace('#', '') as Aba
-  return ABAS.some((a) => a.id === h) ? h : 'projetos'
+  return ABAS.some((a) => a.id === h) ? h : 'textos'
 }
 
 function Login({ aoEntrar }: { aoEntrar: (u: Usuario) => void }) {
@@ -110,7 +112,7 @@ function Casca({ usuario, aoSair }: { usuario: Usuario; aoSair: () => void }) {
   return (
     <div className="casca">
       <aside className="lateral">
-        <a className="lateral__marca" href="#projetos">
+        <a className="lateral__marca" href="#textos">
           <Coracao />
           <span>
             Arte de Amar
@@ -136,7 +138,10 @@ function Casca({ usuario, aoSair }: { usuario: Usuario; aoSair: () => void }) {
       </aside>
 
       <main className="conteudo">
-        {entidade ? (
+        <AvisoEspaco />
+        {aba === 'textos' ? (
+          <PaginaTextos />
+        ) : entidade ? (
           <PaginaLista key={entidade.rota} cfg={entidade} />
         ) : aba === 'fotos' ? (
           <PaginaFotos />

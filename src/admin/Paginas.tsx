@@ -5,6 +5,65 @@ import { useEffect, useState } from 'react'
 import { api, type Voluntario } from './api'
 import { BotaoPerigoso, Carregando, useAvisar } from './ui'
 
+type Espaco = {
+  usado: number
+  limite: number
+  porcentagem: number
+  bytesFotos: number
+  fotosEnviadas: number
+  voluntarios: number
+}
+
+const mb = (b: number) => `${(b / 1_000_000).toLocaleString('pt-BR', { maximumFractionDigits: 1 })} MB`
+
+function useEspaco() {
+  const [espaco, setEspaco] = useState<Espaco | null>(null)
+  useEffect(() => {
+    api<Espaco>('/admin/espaco')
+      .then(setEspaco)
+      .catch(() => {})
+  }, [])
+  return espaco
+}
+
+/** faixa no topo do painel quando o banco passa de 70% */
+export function AvisoEspaco() {
+  const espaco = useEspaco()
+  if (!espaco || espaco.porcentagem < 70) return null
+  const critico = espaco.porcentagem >= 90
+  return (
+    <p className={`faixa ${critico ? 'faixa--critica' : ''}`} role="status">
+      {critico ? 'O banco está quase cheio' : 'O banco passou de 70%'}: {mb(espaco.usado)} de {mb(espaco.limite)}. Apague
+      fotos que não estão em uso em <a href="#fotos">Fotos</a> e contatos arquivados em{' '}
+      <a href="#voluntarios">Voluntários</a>.
+    </p>
+  )
+}
+
+function CartaoEspaco() {
+  const espaco = useEspaco()
+  if (!espaco) return null
+  const nivel = espaco.porcentagem >= 90 ? 'critico' : espaco.porcentagem >= 70 ? 'atencao' : 'ok'
+  return (
+    <div className="cartao">
+      <h3 className="cartao__titulo">Espaço do banco</h3>
+      <div className={`medidor medidor--${nivel}`} aria-hidden="true">
+        <span style={{ width: `${Math.max(1, Math.min(100, espaco.porcentagem))}%` }} />
+      </div>
+      <p className="campo__dica">
+        {mb(espaco.usado)} de {mb(espaco.limite)} ({espaco.porcentagem.toLocaleString('pt-BR')}%) no plano gratuito.
+        {' '}
+        {espaco.fotosEnviadas} foto{espaco.fotosEnviadas === 1 ? '' : 's'} enviada{espaco.fotosEnviadas === 1 ? '' : 's'} pelo
+        painel ({mb(espaco.bytesFotos)}) e {espaco.voluntarios} contato{espaco.voluntarios === 1 ? '' : 's'} de voluntário.
+      </p>
+      <p className="campo__dica">
+        Quase todo o peso são as fotos (cerca de 0,3 MB cada, o que dá espaço para mais de mil). Um contato de voluntário
+        ocupa menos de 1 KB. O painel avisa no topo quando passar de 70%.
+      </p>
+    </div>
+  )
+}
+
 const ROTULO_STATUS: Record<Voluntario['status'], string> = {
   novo: 'Novo',
   contatado: 'Já chamado',
@@ -52,6 +111,16 @@ export function PaginaVoluntarios() {
     }
   }
 
+  async function apagarArquivados() {
+    try {
+      const { apagados } = await api<{ apagados: number }>('/admin/voluntarios', { method: 'DELETE' })
+      setItens((l) => l?.filter((i) => i.status !== 'arquivado') ?? null)
+      avisar(`${apagados} contato${apagados === 1 ? '' : 's'} arquivado${apagados === 1 ? '' : 's'} apagado${apagados === 1 ? '' : 's'}.`)
+    } catch (e) {
+      avisar((e as Error).message, 'erro')
+    }
+  }
+
   const visiveis = itens?.filter((v) => (filtro === 'ativos' ? v.status !== 'arquivado' : v.status === 'arquivado'))
   const novos = itens?.filter((v) => v.status === 'novo').length ?? 0
 
@@ -61,7 +130,8 @@ export function PaginaVoluntarios() {
         <div>
           <h2 className="pagina__titulo">Voluntários</h2>
           <p className="pagina__descricao">
-            Quem preencheu “Ser voluntário” no site. Toque em WhatsApp para chamar a pessoa, já com uma mensagem pronta.
+            Quem preencheu “Ser voluntário” no site, com nome, WhatsApp e como quer ajudar. Toque em WhatsApp para chamar a
+            pessoa com uma mensagem pronta.
           </p>
         </div>
         <div className="segmentos" role="radiogroup" aria-label="Filtrar">
@@ -73,6 +143,14 @@ export function PaginaVoluntarios() {
           </button>
         </div>
       </header>
+
+      {filtro === 'arquivado' && !!visiveis?.length && (
+        <div className="envio__acoes envio__acoes--inicio">
+          <BotaoPerigoso confirmar={`Apagar os ${visiveis.length} arquivados?`} aoConfirmar={apagarArquivados}>
+            Apagar todos os arquivados
+          </BotaoPerigoso>
+        </div>
+      )}
 
       {!visiveis ? (
         <Carregando />
@@ -174,6 +252,8 @@ export function PaginaConfiguracoes() {
           <p className="pagina__descricao">Contatos que aparecem no site e a sua senha do painel.</p>
         </div>
       </header>
+
+      <CartaoEspaco />
 
       {!config ? (
         <Carregando />

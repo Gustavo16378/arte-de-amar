@@ -18,6 +18,8 @@ export const onRequestPost: Funcao = ({ request, env }) =>
     if (!email || !senha) throw new ErroHttp('Preencha e-mail e senha.')
 
     const chave = `login:${email}`
+    // o freio só olha os últimos minutos: o que passou de um dia é descartado
+    await env.DB.prepare(`DELETE FROM tentativas WHERE criado_em < datetime('now', '-1 day')`).run()
     const erros = await env.DB.prepare(
       `SELECT COUNT(*) AS n FROM tentativas WHERE chave = ? AND criado_em > datetime('now', ?)`,
     )

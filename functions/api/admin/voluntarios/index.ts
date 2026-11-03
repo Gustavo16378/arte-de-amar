@@ -9,3 +9,10 @@ export const onRequestGet: Funcao = ({ env }) =>
     ).all()
     return json({ itens: results })
   })
+
+/** DELETE /api/admin/voluntarios  apaga de uma vez todos os contatos arquivados */
+export const onRequestDelete: Funcao = ({ env }) =>
+  tratar(async () => {
+    const r = await env.DB.prepare(`DELETE FROM voluntarios WHERE status = 'arquivado'`).run()
+    return json({ apagados: r.meta.changes ?? 0 })
+  })

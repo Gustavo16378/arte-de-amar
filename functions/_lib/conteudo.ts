@@ -2,6 +2,7 @@
  * Monta o conteúdo público do site a partir do banco, já no formato que os
  * componentes do front usam (o mesmo de src/content).
  */
+import { CAMPO_POR_CHAVE } from '../../src/lib/textos'
 import type { Env } from './tipos'
 
 type LinhaFoto = {
@@ -35,7 +36,7 @@ const COLUNAS_FOTO = `
   f.largura AS foto_largura, f.altura AS foto_altura`
 
 export async function conteudoPublico(env: Env) {
-  const [projetos, marcos, membros, numeros, config] = await env.DB.batch([
+  const [projetos, marcos, membros, numeros, config, textos] = await env.DB.batch([
     env.DB.prepare(
       `SELECT t.*, ${COLUNAS_FOTO} FROM projetos t ${JUNTA_FOTO} WHERE t.visivel = 1 ORDER BY t.ordem, t.id`,
     ),
@@ -47,6 +48,11 @@ export async function conteudoPublico(env: Env) {
     ),
     env.DB.prepare('SELECT valor, sufixo, label FROM numeros WHERE visivel = 1 ORDER BY ordem, id'),
     env.DB.prepare('SELECT chave, valor FROM configuracoes'),
+    env.DB.prepare(
+      `SELECT t.chave, t.valor, f.id AS foto_id, f.caminho AS foto_caminho, f.alt AS foto_alt,
+              f.largura AS foto_largura, f.altura AS foto_altura
+         FROM textos t LEFT JOIN midias f ON f.id = CAST(t.valor AS INTEGER)`,
+    ),
   ])
 
   type L = Record<string, any> & LinhaFoto
@@ -80,6 +86,13 @@ export async function conteudoPublico(env: Env) {
     numeros: numeros.results as { valor: number; sufixo: string; label: string }[],
     config: Object.fromEntries(
       (config.results as { chave: string; valor: string }[]).map((c) => [c.chave, c.valor]),
+    ),
+    // campo de foto sai já como objeto Foto; texto sai como texto
+    textos: Object.fromEntries(
+      (textos.results as (LinhaFoto & { chave: string; valor: string })[])
+        .filter((t) => CAMPO_POR_CHAVE.has(t.chave))
+        .map((t) => [t.chave, CAMPO_POR_CHAVE.get(t.chave)!.tipo === 'foto' ? foto(t) : t.valor])
+        .filter(([, v]) => v !== null),
     ),
   }
 }

@@ -25,11 +25,12 @@ export const onRequestDelete: Funcao<'id'> = ({ params, env }) =>
 
     const uso = await env.DB.prepare(
       `SELECT (SELECT COUNT(*) FROM projetos WHERE foto_id = ?1)
-            + (SELECT COUNT(*) FROM marcos WHERE foto_id = ?1) AS n`,
+            + (SELECT COUNT(*) FROM marcos WHERE foto_id = ?1)
+            + (SELECT COUNT(*) FROM textos WHERE valor = CAST(?1 AS TEXT) AND chave LIKE '%.foto') AS n`,
     )
       .bind(id)
       .first<{ n: number }>()
-    if ((uso?.n ?? 0) > 0) throw new ErroHttp('Essa foto está em uso num projeto ou na linha do tempo. Troque a foto lá antes de apagar.', 409)
+    if ((uso?.n ?? 0) > 0) throw new ErroHttp('Essa foto está em uso num projeto, na linha do tempo ou nos textos do site. Troque a foto lá antes de apagar.', 409)
 
     // retrato da diretoria pode ficar vazio: o site mostra a moldura
     await env.DB.batch([
