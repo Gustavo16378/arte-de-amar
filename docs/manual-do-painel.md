@@ -19,6 +19,25 @@ pelo menos 10 caracteres.
 Por segurança, a sessão dura 8 horas. Depois disso, é só entrar de novo.
 Errar a senha 5 vezes seguidas trava o login por 15 minutos.
 
+## Primeiro acesso: o que conferir
+
+Na primeira vez, vale passar por tudo com o site aberto em outra aba, para
+ver cada mudança aparecer (é só recarregar o site depois de salvar).
+
+1. Entre com a senha temporária e crie a sua.
+2. Em **Textos do site**, leia cada seção e corrija o que estiver
+   diferente do jeito que a ONG fala.
+3. Em **Projetos**, confira nomes, metas, fotos e links de vídeo.
+4. Em **Linha do tempo**, **Diretoria** e **Números**, confira anos, nomes,
+   cargos, retratos e valores.
+5. Em **Configurações**, confira o WhatsApp e a chave PIX e escaneie a
+   prévia do QR Code no app do banco (veja **PIX**, mais abaixo).
+6. Em **Usuários**, dê acesso para as outras pessoas da diretoria que vão
+   cuidar do site.
+
+O que não der para resolver pelo painel, como mudar o layout ou criar uma
+seção nova, é com a equipe (veja **Quem cuida do quê**, no fim).
+
 ## Esqueci a senha
 
 Peça para outra pessoa da diretoria:
@@ -28,7 +47,7 @@ Peça para outra pessoa da diretoria:
 3. Tocar em **Copiar mensagem para o WhatsApp** e mandar para você.
 
 Você entra com a senha temporária e cria uma nova. Se ninguém conseguir
-entrar, fale com quem cuida do site.
+entrar, fale com a equipe.
 
 ## Textos do site
 
@@ -116,8 +135,38 @@ por um ano.
 ## Configurações
 
 - **WhatsApp da ONG:** o número dos botões "Falar no WhatsApp" do site.
-- **Chave PIX:** a que aparece em "Como ajudar", com o botão de copiar.
+- **Chave PIX:** a chave que gera o QR Code e o Pix copia e cola do site
+  (veja **PIX**, logo abaixo).
 - **Espaço do banco:** quanto do espaço gratuito já foi usado. Se passar de
   70%, aparece um aviso no alto do painel. Para liberar espaço, apague fotos
   que não usam mais e voluntários arquivados.
 - **Trocar senha:** a atual e a nova duas vezes.
+
+## PIX
+
+Em "Como ajudar", o site mostra três coisas, todas geradas da chave PIX
+salva em **Configurações**:
+
+- **QR Code:** quem está no computador escaneia com o app do banco.
+- **Copiar Pix copia e cola:** para quem está no celular, que não consegue
+  escanear a própria tela. A pessoa copia o código e cola no app do banco.
+- **A chave escrita**, com o botão de copiar.
+
+O PIX não tem valor fixo: quem doa escolhe quanto quer mandar. A chave pode
+ser CNPJ, CPF, telefone, e-mail ou chave aleatória.
+
+Ao trocar a chave, o painel mostra uma **prévia do QR Code** logo abaixo do
+campo. Depois de salvar, escaneie a prévia no app do banco e confira se
+aparece o nome da conta da ONG antes de divulgar. Se aparecer outro nome, a
+chave está errada.
+
+## Quem cuida do quê
+
+- **Conteúdo do site** (textos, fotos, projetos, linha do tempo, diretoria,
+  números, WhatsApp e PIX): a diretoria, pelo painel.
+- **Hospedagem:** o site, o painel e o banco de dados ficam numa conta da
+  Cloudflare em nome da ONG, no plano gratuito. O domínio próprio, quando
+  for comprado, fica na mesma conta.
+- **Código:** fica no GitHub, onde a equipe guarda o projeto e faz as
+  atualizações. Mudanças de layout, seções novas e correções passam pela
+  equipe.
