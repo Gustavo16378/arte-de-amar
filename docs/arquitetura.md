@@ -18,6 +18,19 @@ flowchart LR
   API --> DB[(D1<br/>SQLite)]
 ```
 
+## Hospedagem e quem cuida de cada parte
+
+| parte | onde fica | quem cuida |
+|---|---|---|
+| site, painel e API | Cloudflare Pages, na conta da ONG | publicação automática a cada push na `main` |
+| banco de dados | Cloudflare D1, na mesma conta | a diretoria, pelo painel |
+| domínio próprio | Cloudflare, na mesma conta | a ONG paga; a equipe configura |
+| código | GitHub (`Gustavo16378/arte-de-amar`) | a equipe |
+
+A conta da Cloudflare fica em nome da ONG para o site não depender de
+ninguém da equipe para continuar no ar (RE05). A equipe só precisa de
+acesso ao GitHub para publicar mudanças de código.
+
 ## Camadas
 
 ```mermaid
