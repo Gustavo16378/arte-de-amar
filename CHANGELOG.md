@@ -4,6 +4,18 @@ O que mudou em cada versão do site e do painel da Arte de Amar.
 Formato inspirado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/);
 versões em [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.1.1] · 2026-11-05
+
+### Documentação
+
+- Manual do painel: passo a passo do primeiro acesso, como o PIX aparece no
+  site (QR Code, Pix copia e cola e chave) com a prévia do QR nas
+  configurações, e quem cuida de cada parte (diretoria, conta da Cloudflare
+  da ONG e equipe no GitHub).
+- Requisitos: RE05 (conta da Cloudflare em nome da ONG, código com a
+  equipe) e prévia do QR no RF16.
+- Arquitetura: hospedagem e quem cuida de cada parte.
+
 ## [1.1.0] · 2026-11-03
 
 ### Adicionado
