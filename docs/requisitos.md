@@ -13,7 +13,7 @@ liga um ao outro.
 |---|---|---|
 | Visitante | qualquer pessoa na internet | lê o site, copia o PIX, se inscreve como voluntária |
 | Diretoria | pessoas com login no painel | mantém o conteúdo, acompanha voluntários, gerencia acessos |
-| Mantenedor | quem cuida do código (hoje, o grupo do PI) | publica, aplica migrations, recupera o acesso em último caso |
+| Mantenedor | quem cuida do código (hoje, a equipe do PI, pelo GitHub) | publica, aplica migrations, recupera o acesso em último caso |
 
 ## Restrições
 
@@ -23,6 +23,7 @@ liga um ao outro.
 | RE02 | Hospedagem no Cloudflare (Pages, Functions e D1 no plano gratuito). |
 | RE03 | Design autoral aprovado, sem template; o painel não pode quebrar o design. |
 | RE04 | A diretoria não é técnica: tudo pelo painel, em português, sem terminal. |
+| RE05 | A conta da Cloudflare (hospedagem, banco e domínio) fica em nome da ONG; o código fica no GitHub, com a equipe. |
 
 ## Requisitos funcionais
 
@@ -49,7 +50,7 @@ liga um ao outro.
 | RF13 | Fotos enviadas são reduzidas (até 1600px) e convertidas para WebP antes de subir. |
 | RF14 | A diretoria edita os textos e fotos fixos de cada seção e pode voltar qualquer campo ao original. |
 | RF15 | A diretoria vê os voluntários, marca como chamado, arquiva, apaga e chama no WhatsApp. |
-| RF16 | A diretoria troca WhatsApp, chave PIX e a própria senha. |
+| RF16 | A diretoria troca WhatsApp, chave PIX (com prévia do QR Code antes de salvar) e a própria senha. |
 | RF17 | Qualquer pessoa da diretoria dá e tira acesso de outra e gera senha temporária para quem esqueceu. |
 | RF18 | Quem entra com senha temporária é obrigado a criar uma senha própria antes de usar o painel. |
 | RF19 | Toda alteração e todo login ficam registrados (quem, o quê, quando) e são consultáveis por dia e pessoa. |
