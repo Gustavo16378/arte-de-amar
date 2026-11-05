@@ -480,6 +480,7 @@ Fica de fora do painel:
 | confirmar que a chave PIX (CNPJ) está cadastrada na conta da ONG: o QR e o copia e cola são gerados dela | escanear o QR do site no app do banco |
 | crédito do rodapé, hoje "nome do estúdio" | `src/components/sections/Footer.tsx` |
 | originais de `triagem-roupas.jpg` e `criancas-comunidade.jpg`, que chegaram em 240x320 | `public/assets/fotos/` |
+| conta da Cloudflare em nome da ONG, criada junto com a presidente | refazer [Deploy](#deploy-no-cloudflare-pages) e [Ligar o backend](#ligar-o-backend-uma-vez-só) nessa conta |
 | domínio próprio | Cloudflare Pages → Custom domains, e o endereço nos quatro arquivos citados em Deploy |
 
 ---
