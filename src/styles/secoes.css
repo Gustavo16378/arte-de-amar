@@ -782,7 +782,7 @@
 
   .historia-desktop__marco {
     flex: none;
-    width: 520px;
+    width: 640px;
     height: 100%;
     position: relative;
     opacity: .3;
@@ -806,13 +806,26 @@
     background: var(--esmeralda);
   }
 
+  /*
+   * Ano em cima; foto à esquerda e título e texto à direita. Com a foto
+   * empilhada sobre o texto, um texto longo (até 300 caracteres, o limite do
+   * painel) passava da metade da tela e o cartão saía pelo topo ou pelo pé.
+   * Lado a lado, o cartão cabe na metade da altura até em notebook de 768px.
+   */
   .historia-desktop__cartao {
     position: absolute;
     left: 24px;
-    width: 440px;
-    display: flex;
-    flex-direction: column;
-    gap: clamp(6px, 1.4vh, 14px);
+    width: 580px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+      'ano ano'
+      'foto titulo'
+      'foto desc';
+    grid-template-rows: auto auto 1fr;
+    column-gap: 24px;
+    row-gap: clamp(4px, 1vh, 10px);
+    align-items: start;
   }
 
   /* marcos alternam acima e abaixo do fio */
@@ -825,31 +838,36 @@
   }
 
   .historia-desktop__ano {
+    grid-area: ano;
+    margin-bottom: clamp(4px, 1vh, 10px);
     font-family: var(--font-display);
     font-weight: 300;
-    font-size: clamp(44px, 8.5vh, 104px);
+    font-size: clamp(40px, 7vh, 88px);
     line-height: .9;
     letter-spacing: -.03em;
     color: var(--tinta);
   }
 
   .historia-desktop__foto {
-    width: clamp(150px, 24vh, 230px);
-    height: clamp(120px, 20vh, 200px);
+    grid-area: foto;
+    width: clamp(120px, 18vh, 190px);
+    height: clamp(110px, 16vh, 170px);
   }
 
   .historia-desktop__marco-titulo {
-    margin-top: 4px;
+    grid-area: titulo;
     font-family: var(--font-display);
     font-weight: 400;
     font-size: clamp(18px, 2.6vh, 24px);
     line-height: 1.2;
+    text-wrap: balance;
   }
 
   .historia-desktop__marco-desc {
-    font-size: clamp(14px, 1.8vh, 15px);
+    grid-area: desc;
+    font-size: clamp(13px, 1.75vh, 15px);
     line-height: 1.5;
-    max-width: 360px;
+    text-wrap: pretty;
   }
 
   .historia-desktop__respiro {
