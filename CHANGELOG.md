@@ -11,7 +11,8 @@ versões em [SemVer](https://semver.org/lang/pt-BR/).
 - Linha do tempo no computador: com textos longos (até os 300 caracteres do
   painel), os marcos passavam da tela, o ano sumia no topo e o texto era
   cortado embaixo. A foto agora fica ao lado do título e do texto, e o
-  cartão cabe na metade da altura até em telas de 768px.
+  cartão cabe na metade da altura até em telas de 768px. Foto, título e
+  texto maiores, aproveitando a altura que sobra.
 
 ## [1.2.0] · 2026-11-10
 
