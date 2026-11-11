@@ -4,6 +4,20 @@ O que mudou em cada versão do site e do painel da Arte de Amar.
 Formato inspirado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/);
 versões em [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.2.0] · 2026-11-10
+
+### Removido
+
+- Situação dos projetos ("Em andamento" e "Concluído") e os filtros por
+  situação na seção Projetos. A pedido da diretoria: as campanhas se repetem
+  ano após ano, então nenhuma deve aparecer como encerrada.
+- Campo "Situação" do formulário de projeto no painel.
+
+### Mudado
+
+- Projeto criado sem situação nasce "Em andamento" na API. A coluna continua
+  no banco, sem migration.
+
 ## [1.1.1] · 2026-11-05
 
 ### Documentação
