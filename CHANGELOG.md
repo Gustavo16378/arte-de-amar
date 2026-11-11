@@ -4,6 +4,15 @@ O que mudou em cada versão do site e do painel da Arte de Amar.
 Formato inspirado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/);
 versões em [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.2.1] · 2026-11-11
+
+### Corrigido
+
+- Linha do tempo no computador: com textos longos (até os 300 caracteres do
+  painel), os marcos passavam da tela, o ano sumia no topo e o texto era
+  cortado embaixo. A foto agora fica ao lado do título e do texto, e o
+  cartão cabe na metade da altura até em telas de 768px.
+
 ## [1.2.0] · 2026-11-10
 
 ### Removido

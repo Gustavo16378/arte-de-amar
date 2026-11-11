@@ -1,7 +1,7 @@
 {
   "name": "arte-de-amar",
   "private": true,
-  "version": "1.2.0",
+  "version": "1.2.1",
   "type": "module",
   "scripts": {
     "dev": "node scripts/gerar-imagens.mjs && node scripts/gerar-grao.mjs && vite",
