@@ -7,12 +7,12 @@ Como o sistema é verificado, o que cada suíte cobre e como cada requisito de
 
 | suíte | técnica | o que roda | testes |
 |---|---|---|---|
-| Unitários | caixa branca | bibliotecas da API e do site, isoladas | 121 |
+| Unitários | caixa branca | bibliotecas da API e do site, isoladas | 122 |
 | Banco | caixa branca | migrations aplicadas do zero num SQLite em memória | 34 |
 | API | caixa preta e caixa cinza | a API real (wrangler, runtime da Cloudflare) com um D1 isolado | 155 |
 | E2E | caixa preta | site e painel num navegador, no computador (1440px) e no celular (390px) | 48 |
 | Acessibilidade | caixa preta | axe-core, regras WCAG 2 A e AA, dentro do E2E | incluída no E2E |
-| **Total** | | | **358** |
+| **Total** | | | **359** |
 
 Cobertura de linhas dos unitários: 89% nas bibliotecas (`functions/_lib`,
 `src/lib`, zip do painel). O que fica de fora do unitário (`auditoria.ts` e

@@ -14,7 +14,7 @@ axe-core nos testes. Custo de operação zero.
 |---|---|
 | [docs/requisitos.md](docs/requisitos.md) | atores, restrições, requisitos funcionais e não funcionais |
 | [docs/arquitetura.md](docs/arquitetura.md) | camadas, fluxos, edição simultânea e decisões |
-| [docs/testes.md](docs/testes.md) | 358 testes em caixa branca, cinza e preta, rastreabilidade e o que eles encontraram |
+| [docs/testes.md](docs/testes.md) | 359 testes em caixa branca, cinza e preta, rastreabilidade e o que eles encontraram |
 | [docs/api.md](docs/api.md) | referência das rotas, com exemplos de pedido e resposta |
 | [docs/banco.md](docs/banco.md) | modelo do banco, diagrama ER e migrations |
 | [docs/manual-do-painel.md](docs/manual-do-painel.md) | como a diretoria usa o painel, em linguagem simples |
@@ -502,5 +502,5 @@ Fica de fora do painel:
 7. **Backend e painel**: API em Pages Functions, banco D1 com migrations,
    painel da diretoria com textos, cadastros, fotos, voluntários, usuários,
    auditoria e trava de edição simultânea.
-8. **Qualidade**: requisitos, 358 testes em caixa branca, cinza e preta, CI
+8. **Qualidade**: requisitos, 359 testes em caixa branca, cinza e preta, CI
    no GitHub Actions e documentação em `docs/`.
