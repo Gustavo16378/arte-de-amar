@@ -155,7 +155,6 @@ export const DIRETORIA = {
 export const PROJETOS_SECAO = {
   rotulo: 'Projetos e campanhas',
   titulo: 'Nossos |projetos|',
-  filtros: ['Todos', 'Em andamento', 'Concluídos'],
 }
 
 export const AJUDAR = {

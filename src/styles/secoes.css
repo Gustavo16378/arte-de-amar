@@ -1150,55 +1150,6 @@
   margin-top: 18px;
 }
 
-.projetos__filtros {
-  position: relative;
-  margin-top: 28px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 22px;
-}
-
-.projetos__filtro {
-  position: relative;
-  background: none;
-  border: 0;
-  padding: 10px 0;
-  min-height: 44px;
-  font-family: var(--font-body);
-  font-weight: 500;
-  font-size: 13px;
-  line-height: 1;
-  letter-spacing: .04em;
-  color: var(--neutro-fechado);
-  cursor: pointer;
-  transition: color .3s var(--ease-out);
-}
-
-/* 39px de desenho no item mais curto, 45px de área de toque */
-.projetos__filtro::before {
-  content: '';
-  position: absolute;
-  inset: 0 -3px;
-}
-
-.projetos__filtro[aria-pressed='true'] {
-  color: var(--tinta);
-}
-
-/*
- * Um traço só do fio, que desliza de um item para o outro em vez de um
- * traço por botão aparecendo e sumindo.
- */
-.projetos__traco {
-  position: absolute;
-  bottom: 6px;
-  left: 0;
-  width: 0;
-  height: 1.5px;
-  background: linear-gradient(90deg, var(--menta), var(--esmeralda));
-  pointer-events: none;
-}
-
 .projetos__lista {
   margin-top: 36px;
   display: flex;
@@ -1224,25 +1175,9 @@
   z-index: 0;
 }
 
-.projetos__status {
-  display: block;
-  margin-top: 22px;
-  font-family: var(--font-body);
-  font-weight: 500;
-  font-size: 10px;
-  line-height: 1;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  color: var(--neutro-fechado);
-}
-
-.projetos__card[data-status='Em andamento'] .projetos__status {
-  color: var(--esmeralda);
-}
-
 .projetos__nome {
   display: block;
-  margin-top: 10px;
+  margin-top: 28px;
   font-family: var(--font-display);
   font-weight: 400;
   font-size: 30px;
@@ -1334,20 +1269,6 @@
     margin-top: 22px;
   }
 
-  .projetos__filtros {
-    margin-top: 0;
-    gap: 28px;
-    padding-bottom: 10px;
-  }
-
-  .projetos__filtro {
-    padding: 8px 0;
-  }
-
-  .projetos__traco {
-    height: 2px;
-  }
-
   .projetos__lista {
     margin-top: clamp(56px, 10vh, 120px);
     gap: 0;
@@ -1383,13 +1304,8 @@
     max-width: 460px;
   }
 
-  .projetos__status {
-    margin-top: 0;
-    font-size: 11px;
-  }
-
   .projetos__nome {
-    margin: 14px 0 0;
+    margin: 0;
     font-size: clamp(30px, 3vw, 46px);
   }
 
