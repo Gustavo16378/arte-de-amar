@@ -49,6 +49,12 @@ describe('RNF10 · validação dos campos', () => {
     expect(() => limpar(e, resto)).toThrow(/Preencha|Escolha/)
   })
 
+  it('projeto criado sem situação nasce "Em andamento"; na edição, nada muda', () => {
+    const { status: _, ...semStatus } = projetoValido
+    expect(limpar(e, semStatus).status).toBe('Em andamento')
+    expect(limpar(e, { nome: 'Outro nome' }, true)).not.toHaveProperty('status')
+  })
+
   it('recusa texto vazio em campo obrigatório', () => {
     expect(() => limpar(e, { ...projetoValido, nome: '   ' })).toThrow(/Preencha o campo "Nome"/)
   })

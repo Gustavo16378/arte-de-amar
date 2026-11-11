@@ -14,7 +14,8 @@ type Campo =
   | { tipo: 'inteiro'; obrigatorio?: boolean; min?: number; rotulo: string }
   | { tipo: 'bool'; rotulo: string }
   | { tipo: 'foto'; obrigatorio?: boolean; rotulo: string }
-  | { tipo: 'opcao'; valores: string[]; rotulo: string }
+  /** `padrao` entra na criação quando o painel não manda o campo */
+  | { tipo: 'opcao'; valores: string[]; rotulo: string; padrao?: string }
   | { tipo: 'url'; rotulo: string }
 
 export type Entidade = {
@@ -40,7 +41,9 @@ export const ENTIDADES: Record<string, Entidade> = {
       objetivo: { tipo: 'texto', obrigatorio: true, max: 400, rotulo: 'Objetivo' },
       objetivo_curto: { tipo: 'texto', obrigatorio: true, max: 200, rotulo: 'Objetivo curto' },
       publico: { tipo: 'texto', obrigatorio: true, max: 80, rotulo: 'Público' },
-      status: { tipo: 'opcao', valores: ['Em andamento', 'Concluído'], rotulo: 'Status' },
+      // o site não mostra mais a situação (as campanhas se repetem todo ano);
+      // a coluna continua no banco e todo projeto novo nasce 'Em andamento'
+      status: { tipo: 'opcao', valores: ['Em andamento', 'Concluído'], rotulo: 'Status', padrao: 'Em andamento' },
       foto_id: { tipo: 'foto', obrigatorio: true, rotulo: 'Foto' },
       foto_posicao: posicao,
       meta_feito: { tipo: 'inteiro', min: 0, rotulo: 'Meta: quanto já foi feito' },
@@ -115,6 +118,7 @@ export function limpar(e: Entidade, bruto: Record<string, unknown>, parcial = fa
     if (!(coluna in bruto)) {
       if (parcial) continue
       if ('obrigatorio' in campo && campo.obrigatorio) throw new ErroHttp(`Preencha o campo "${campo.rotulo}".`)
+      if (campo.tipo === 'opcao' && campo.padrao !== undefined) saida[coluna] = campo.padrao
       continue
     }
 
