@@ -782,7 +782,7 @@
 
   .historia-desktop__marco {
     flex: none;
-    width: 640px;
+    width: 820px;
     height: 100%;
     position: relative;
     opacity: .3;
@@ -815,7 +815,7 @@
   .historia-desktop__cartao {
     position: absolute;
     left: 24px;
-    width: 580px;
+    width: 740px;
     display: grid;
     grid-template-columns: auto 1fr;
     grid-template-areas:
@@ -823,8 +823,8 @@
       'foto titulo'
       'foto desc';
     grid-template-rows: auto auto 1fr;
-    column-gap: 24px;
-    row-gap: clamp(4px, 1vh, 10px);
+    column-gap: 32px;
+    row-gap: clamp(6px, 1.2vh, 12px);
     align-items: start;
   }
 
@@ -842,7 +842,7 @@
     margin-bottom: clamp(4px, 1vh, 10px);
     font-family: var(--font-display);
     font-weight: 300;
-    font-size: clamp(40px, 7vh, 88px);
+    font-size: clamp(44px, 8vh, 96px);
     line-height: .9;
     letter-spacing: -.03em;
     color: var(--tinta);
@@ -850,23 +850,23 @@
 
   .historia-desktop__foto {
     grid-area: foto;
-    width: clamp(120px, 18vh, 190px);
-    height: clamp(110px, 16vh, 170px);
+    width: clamp(160px, 30vh, 300px);
+    height: clamp(140px, 26vh, 260px);
   }
 
   .historia-desktop__marco-titulo {
     grid-area: titulo;
     font-family: var(--font-display);
     font-weight: 400;
-    font-size: clamp(18px, 2.6vh, 24px);
+    font-size: clamp(20px, 3.2vh, 30px);
     line-height: 1.2;
     text-wrap: balance;
   }
 
   .historia-desktop__marco-desc {
     grid-area: desc;
-    font-size: clamp(13px, 1.75vh, 15px);
-    line-height: 1.5;
+    font-size: clamp(14px, 2vh, 18px);
+    line-height: 1.55;
     text-wrap: pretty;
   }
 
