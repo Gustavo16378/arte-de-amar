@@ -46,16 +46,13 @@ export const ENTIDADES: ConfigEntidade[] = [
     descricao: 'As campanhas da seção "Nossos projetos". A ordem aqui é a ordem no site.',
     secao: '#projetos',
     rotuloItem: (r) => String(r.nome ?? ''),
-    detalheItem: (r) =>
-      [r.status, r.meta_total ? `meta ${r.meta_feito ?? 0} de ${r.meta_total} ${r.meta_unidade ?? ''}` : null]
-        .filter(Boolean)
-        .join(' · '),
-    vazio: { status: 'Em andamento', visivel: 1, foto_posicao: '50% 50%' },
+    // sem situação: as campanhas se repetem todo ano (a API grava 'Em andamento')
+    detalheItem: (r) => (r.meta_total ? `meta ${r.meta_feito ?? 0} de ${r.meta_total} ${r.meta_unidade ?? ''}` : ''),
+    vazio: { visivel: 1, foto_posicao: '50% 50%' },
     grupos: [
       {
         campos: [
           { nome: 'nome', tipo: 'texto', rotulo: 'Nome da campanha', max: 80, obrigatorio: true },
-          { nome: 'status', tipo: 'opcao', rotulo: 'Situação', valores: ['Em andamento', 'Concluído'] },
           { nome: 'publico', tipo: 'texto', rotulo: 'Para quem', dica: 'Ex.: Crianças de 2 a 12 anos', max: 80, obrigatorio: true },
         ],
       },
