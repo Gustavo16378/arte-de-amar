@@ -28,7 +28,7 @@ erDiagram
   projetos {
     int id PK
     text nome
-    text status "Em andamento | Concluído"
+    text status "Em andamento | Concluído (não aparece no site)"
     int foto_id FK
     int meta_feito
     int meta_total

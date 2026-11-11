@@ -139,7 +139,7 @@ Campos de cada cadastro (limites validados na API e no banco):
 
 | entidade | campos |
 |---|---|
-| projetos | `nome`\* (80), `objetivo`\* (400), `objetivo_curto`\* (200), `publico`\* (80), `status`\* (`Em andamento` \| `Concluído`), `foto_id`\*, `foto_posicao`, `meta_feito`, `meta_total`, `meta_unidade` (os três juntos ou nenhum), `depoimento` (300), `autor` (80), `video_url` (https), `visivel` |
+| projetos | `nome`\* (80), `objetivo`\* (400), `objetivo_curto`\* (200), `publico`\* (80), `status` (`Em andamento` \| `Concluído`; sem ele, nasce `Em andamento`; o site não mostra), `foto_id`\*, `foto_posicao`, `meta_feito`, `meta_total`, `meta_unidade` (os três juntos ou nenhum), `depoimento` (300), `autor` (80), `video_url` (https), `visivel` |
 | marcos | `ano`\* (10), `titulo`\* (60), `texto`\* (200), `texto_desktop`\* (300), `foto_id`\*, `foto_posicao`, `so_desktop`, `visivel` |
 | membros | `nome`\* (60), `cargo`\* (60), `foto_id`, `visivel` |
 | numeros | `valor`\* (inteiro ≥ 0), `sufixo` (3), `label`\* (40), `visivel` |
